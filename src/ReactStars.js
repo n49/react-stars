@@ -21,7 +21,7 @@ class ReactStars extends Component {
       // color of an active star
       color2: props.color2 || '#ffd700',
       // color color of a hovered star
-      color3: props.color3 || color2 || 'orange'
+      color3: props.color3 || props.color2 || 'orange'
     }
 
   }
@@ -47,15 +47,22 @@ class ReactStars extends Component {
     return stars
   }
 
+  mouseOver(...args) {
+    console.log(args)
+  }
+
   renderStars() {
     const { color1, color2, size, char } = this.state.config
     return this.state.stars.map((star, i) => {
-      const style = {
+      // will be merged with default styles later
+      const style = Object.assign({}, {
         color: star.active ? color2 : color1,
         fontSize: `${size}px`
-      }
+      })
       return (
-        <span style={style} key={i}>
+        <span style={style}
+          key={i}
+          onMouseOver={this.mouseOver.bind(this)}>
           {char}
         </span>
       )
