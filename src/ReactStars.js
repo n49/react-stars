@@ -11,6 +11,12 @@ const defaultStyles = {
   float: 'left'
 }
 
+const halfStarStyles = {
+  cursor: 'pointer',
+  position: 'absolute',
+  overflow: 'hidden'
+}
+
 class ReactStars extends Component {
 
   constructor(props) {
@@ -61,12 +67,12 @@ class ReactStars extends Component {
       }
     }
     this.setState({
-      stars: this.getArrayOfStars(this.state.value - 1)
+      stars: this.getStars(this.state.value - 1)
     })
   }
 
   /** Returns an array of stars with their properties */
-  getArrayOfStars(numberActive) {
+  getStars(numberActive) {
     let stars = []
     for(let i = 0; i < this.state.config.count; i++) {
       stars.push({
@@ -77,29 +83,29 @@ class ReactStars extends Component {
   }
 
   mouseOver(event) {
-    var offset = Number(event.target.getAttribute('data-key'))
-    var parentOffsetLeft = event.target.parentNode.offsetLeft
-    var mouseAt = event.pageX - event.target.offsetLeft - parentOffsetLeft
+    var starIndex = Number(event.target.getAttribute('data-key'))
+    var parentLeft = event.target.parentNode.offsetLeft
+    var mouseAt = event.pageX - event.target.offsetLeft - parentLeft
     if(mouseAt < this.state.config.size / 2 + 5) {
       this.state.halfStar.there = true
-      this.state.halfStar.wasOn = offset
+      this.state.halfStar.wasOn = starIndex
     } else {
       this.state.halfStar.there = false
     }
     this.setState({
-      stars: this.getArrayOfStars(offset)
+      stars: this.getStars(starIndex)
     })
   }
 
   mouseOverHalfStar(event) {
     this.setState({
-      stars: this.getArrayOfStars(this.state.halfStar.wasOn - 1)
+      stars: this.getStars(this.state.halfStar.wasOn - 1)
     })
   }
 
   mouseLeave() {
     this.setState({
-      stars: this.getArrayOfStars(this.state.value)
+      stars: this.getStars(this.state.value)
     })
   }
 
@@ -108,7 +114,7 @@ class ReactStars extends Component {
     var x = event.pageX - event.target.offsetLeft
     this.setState({
       value: offset,
-      stars: this.getArrayOfStars(offset)
+      stars: this.getStars(offset)
     })
     const rating = offset + 1
     this.props.onRatingChange(rating)
@@ -120,19 +126,16 @@ class ReactStars extends Component {
 
   renderHalfStar() {
     let leftHalfStarOffset = this.state.halfStar.wasOn * this.state.config.size
-    const halfStarStyle = Object.assign({
-      overflow: 'hidden',
+    const style = Object.assign({}, halfStarStyles, {
       width: `${(this.state.config.size / 2)}px`,
       fontSize: `${this.state.config.size}px`,
-      position: 'absolute',
       left: `${leftHalfStarOffset}px`,
       display: this.state.halfStar.there ? 'block' : 'none',
       color: this.state.config.color2,
-      cursor: 'pointer'
     })
     return (
       <span
-        style={halfStarStyle}
+        style={style}
         ref={(e) => this.state.halfStar.element = e}
         onMouseOver={this.mouseOverHalfStar.bind(this)}
         onMouseMove={this.mouseOverHalfStar.bind(this)}
@@ -146,10 +149,12 @@ class ReactStars extends Component {
     const { color1, color2, size, char } = this.state.config
     return this.state.stars.map((star, i) => {
       // will be merged with default styles later
-      const style = Object.assign({
-        color: star.active ? color2 : color1,
-        fontSize: `${size}px`
-      }, defaultStyles)
+      const style = Object.assign({},
+        defaultStyles, {
+          color: star.active ? color2 : color1,
+          fontSize: `${size}px`
+        }
+      )
       return (
         <span
           style={style}
