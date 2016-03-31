@@ -23,6 +23,8 @@ class ReactStars extends Component {
 
     super(props)
 
+    console.error('Initial value is ' + props.value)
+
     this.state = {
       value: props.value || 0,
       stars: [],
@@ -116,21 +118,21 @@ class ReactStars extends Component {
   }
 
   mouseLeave() {
-    if(!this.state.config.edit) return;
+    if(!this.state.config.edit) return
     this.setState({
       stars: this.getStars()
     })
   }
 
   mouseLeaveHalfStar() {
-    this.state.halfStar.hidden = true
+    this.state.halfStar.at = this.rateBrakeDown().stars + 1
     this.setState({
       stars: this.getStars()
     })
   }
 
   clicked(event) {
-    if(!this.state.config.edit) return;
+    if(!this.state.config.edit) return
     const index = Number(event.target.getAttribute('data-index'))
     this.setState({
       value: index,
@@ -150,7 +152,6 @@ class ReactStars extends Component {
 
   renderHalfStar() {
     let { config, halfStar } = this.state
-    console.log(Object.assign({}, this.state))
     let starLeft = halfStar.at * config.size
     const style = Object.assign({}, halfStarStyles, {
       width:    `${(config.size / 2)}px`,
