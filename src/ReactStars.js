@@ -26,10 +26,10 @@ class ReactStars extends Component {
     this.state = {
       value: props.value || 0,
       stars: [],
-      halfStar: {
+      halfStar: props.half ? {
         at: 0,
         hidden: false
-      }
+      } : null
     }
 
     this.state.config = {
@@ -150,13 +150,12 @@ class ReactStars extends Component {
   }
 
   clickedHalfStar(event) {
-
-    if(!this.state.config.edit) return;
-
+    let { config, halfStar } = this.state
+    if(!config.edit || !config.half) return;
     this.setState({
-      value: this.state.halfStar.at + 0.5
+      value: halfStar.at + 0.5
     })
-    this.props.onChange(this.state.halfStar.at + 0.5)
+    this.props.onChange(halfStar.at + 0.5)
   }
 
   renderHalfStar() {
