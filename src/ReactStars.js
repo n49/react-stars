@@ -90,16 +90,18 @@ class ReactStars extends Component {
     let { config, halfStar } = this.state
     let { target } = event
     if(!config.edit) return;
-    let index = Number(event.target.getAttribute('data-key'))
+    let index = Number(event.target.getAttribute('data-index'))
     let mouseAt = event.pageX - target.offsetLeft - target.parentNode.offsetLeft
-    if((mouseAt < this.state.config.size / 2) && config.half) {
-      this.state.halfStar.at = index
-      this.state.halfStar.hidden = false
-      this.setState({
-        stars: this.getStars(index)
-      })
-    } else {
-      this.state.halfStar.hidden = true
+    if(config.half) {
+      if(mouseAt < this.state.config.size / 2) {
+        this.state.halfStar.at = index
+        this.state.halfStar.hidden = false
+        this.setState({
+          stars: this.getStars(index)
+        })
+      } else {
+        this.state.halfStar.hidden = true
+      }
     }
     this.setState({
       stars: this.getStars(index)
@@ -133,7 +135,7 @@ class ReactStars extends Component {
 
   clicked(event) {
     if(!this.state.config.edit) return;
-    const offset = Number(event.target.getAttribute('data-key'))
+    const offset = Number(event.target.getAttribute('data-index'))
     this.setState({
       value: offset,
       stars: this.getStars(offset)
@@ -186,7 +188,7 @@ class ReactStars extends Component {
         <span
           style={style}
           key={i}
-          data-key={i}
+          data-index={i}
           onMouseOver={this.mouseOver.bind(this)}
           onMouseMove={this.mouseOver.bind(this)}
           onMouseLeave={this.mouseLeave.bind(this)}
