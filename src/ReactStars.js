@@ -11,35 +11,34 @@ class ReactStars extends Component {
     super(props)
 
     this.state = {
-      value: props.value || 0
-    }
-
-    // validation of props that are true / false
-
-    if(typeof props.edit === 'undefined') {
-      props.edit = true
-    }
-
-    if(typeof props.half === 'undefined') {
-      props.half = true
+      value: props.value || 0,
+      stars: []
     }
 
     this.state.config = {
       count:  props.starCount || 5,
       size:   props.size || 24,
       char:   props.char || '★',
-      edit:   props.edit,
-      half:   props.half,
       // default color of inactive star
       color1: props.color1 || 'gray',
       // color of an active star
       color2: props.color2 || '#ffd700'
     }
 
-  }
+    // validation of props that are true / false
 
-  componentWillMount() {
-    this.state.stars = []
+    if(typeof props.edit === 'undefined') {
+      this.state.config.edit = true
+    } else {
+      this.state.config.edit = props.edit
+    }
+
+    if(typeof props.half === 'undefined') {
+      this.state.config.half = true
+    } else {
+      this.state.config.half = props.half
+    }
+
   }
 
   componentDidMount() {
