@@ -73,7 +73,6 @@ class ReactStars extends Component {
     }
   }
 
-  /** Returns an array of stars with their properties */
   getStars(activeCount) {
     if(typeof activeCount === 'undefined') {
       activeCount = this.rateBrakeDown().stars
@@ -88,22 +87,23 @@ class ReactStars extends Component {
   }
 
   mouseOver(event) {
-    if(!this.state.config.edit) return;
-    let starIndex = Number(event.target.getAttribute('data-key'))
-    let parentLeft = event.target.parentNode.offsetLeft
-    let mouseAt = event.pageX - event.target.offsetLeft - parentLeft
-    if(mouseAt < this.state.config.size / 2) {
-      this.state.halfStar.at = starIndex
+    let { config, halfStar } = this.state
+    let { target } = event
+    if(!config.edit) return;
+    let index = Number(event.target.getAttribute('data-key'))
+    let mouseAt = event.pageX - target.offsetLeft - target.parentNode.offsetLeft
+    if((mouseAt < this.state.config.size / 2) && config.half) {
+      this.state.halfStar.at = index
       this.state.halfStar.hidden = false
       this.setState({
-        stars: this.getStars(starIndex)
+        stars: this.getStars(index)
       })
     } else {
       this.state.halfStar.hidden = true
-      this.setState({
-        stars: this.getStars(starIndex)
-      })
     }
+    this.setState({
+      stars: this.getStars(index)
+    })
   }
 
   mouseOverHalfStar(event) {
