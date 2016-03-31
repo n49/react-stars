@@ -1,4 +1,4 @@
-# ReactStars
+# ★ ReactStars ★
 ###### A simple star rating component for your React projects
 
 ### Get started quickly
@@ -20,3 +20,19 @@ render(<ReactStars
   document.getElementById('where-to-render')
 );
 ```
+### API
+
+This a list of props that you can pass down to the component:
+
+| Property | Description | Default value | type |
+| - | - | - | - |
+| `count` | How many total stars you want  | 5 | number |
+| `char` | Which character you want to use as a star | ★ | string |
+| `color1` | Color of inactive star (this supports any CSS valid value) | `gray` | string |
+| `color2` | Color of selected or active star | `#ffd700` | string |
+| `size` | Size of stars (in PX) | `15px` | string |
+| `onChange(new_rating)` | Will be invoked any time the rating is changed | | function |
+
+### Requirements
+
+You will need to have React in your project in order to use the component, I didn't bundle React in the build, because it seemed like a crazy idea. 
