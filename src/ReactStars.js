@@ -59,6 +59,7 @@ class ReactStars extends Component {
   }
 
   componentDidMount() {
+    this.state.halfStar.at = this.rateBrakeDown().stars + 1
     this.setState({
       stars: this.getStars()
     })
@@ -93,14 +94,11 @@ class ReactStars extends Component {
     let index = Number(event.target.getAttribute('data-index'))
     let mouseAt = event.pageX - target.offsetLeft - target.parentNode.offsetLeft
     if(config.half) {
-      if(mouseAt < this.state.config.size / 2) {
-        this.state.halfStar.at = index
-        this.state.halfStar.hidden = false
-        this.setState({
-          stars: this.getStars(index)
-        })
+      if(mouseAt < config.size / 2) {
+        halfStar.at = index
+        halfStar.hidden = false
       } else {
-        this.state.halfStar.hidden = true
+        halfStar.hidden = true
       }
     }
     this.setState({
@@ -125,9 +123,7 @@ class ReactStars extends Component {
   }
 
   mouseLeaveHalfStar() {
-    if(!this.state.config.edit || !this.state.config.half) {
-      return false;
-    }
+    this.state.halfStar.hidden = true
     this.setState({
       stars: this.getStars()
     })
@@ -135,13 +131,12 @@ class ReactStars extends Component {
 
   clicked(event) {
     if(!this.state.config.edit) return;
-    const offset = Number(event.target.getAttribute('data-index'))
+    const index = Number(event.target.getAttribute('data-index'))
     this.setState({
-      value: offset,
-      stars: this.getStars(offset)
+      value: index,
+      stars: this.getStars(index)
     })
-    const rating = offset + 1
-    this.props.onChange(rating)
+    this.props.onChange(index + 1)
   }
 
   clickedHalfStar(event) {
@@ -155,6 +150,7 @@ class ReactStars extends Component {
 
   renderHalfStar() {
     let { config, halfStar } = this.state
+    console.log(Object.assign({}, this.state))
     let starLeft = halfStar.at * config.size
     const style = Object.assign({}, halfStarStyles, {
       width:    `${(config.size / 2)}px`,
@@ -178,12 +174,10 @@ class ReactStars extends Component {
   renderStars() {
     const { color1, color2, size, char } = this.state.config
     return this.state.stars.map((star, i) => {
-      const style = Object.assign({},
-        defaultStyles, {
-          color: star.active ? color2 : color1,
-          fontSize: `${size}px`
-        }
-      )
+      const style = Object.assign({}, defaultStyles, {
+        color:    star.active ? color2 : color1,
+        fontSize: `${size}px`
+      })
       return (
         <span
           style={style}
