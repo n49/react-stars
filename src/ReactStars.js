@@ -107,6 +107,12 @@ class ReactStars extends Component {
     })
     const rating = offset + 1
     this.props.onRatingChange(rating)
+    console.log(rating)
+  }
+
+  clickedHalfStar(event) {
+    const rating = this.state.halfStar.wasOn + 0.5
+    console.log(rating)
   }
 
   renderHalfStar() {
@@ -125,7 +131,8 @@ class ReactStars extends Component {
         style={halfStarStyle}
         ref={(e) => this.state.halfStar.element = e}
         onMouseOver={this.mouseOverHalfStar.bind(this)}
-        onMouseMove={this.mouseOverHalfStar.bind(this)}>
+        onMouseMove={this.mouseOverHalfStar.bind(this)}
+        onClick={this.clickedHalfStar.bind(this)}>
         {this.state.config.char}
       </span>
     )
