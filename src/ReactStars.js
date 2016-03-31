@@ -20,7 +20,11 @@ class ReactStars extends Component {
     this.state = {
       value: props.value || 0,
       stars: [],
-      halfStar: props.half ? {} : null
+      halfStar: props.half ? {
+        x: 0,
+        there: false,
+        wasOn: 0
+      } : null
     }
 
     this.state.config = {
@@ -70,11 +74,21 @@ class ReactStars extends Component {
     var offset = Number(event.target.getAttribute('data-key'))
     var parentOffsetLeft = event.target.parentNode.offsetLeft
     var mouseAt = event.pageX - event.target.offsetLeft - parentOffsetLeft
-    if(mouseAt < this.state.config.size / 2) {
+    if(mouseAt < this.state.config.size / 2 + 5) {
+      this.state.halfStar.there = true
       this.state.halfStar.x = offset * this.state.config.size
+      this.state.halfStar.wasOn = offset
+    } else {
+      this.state.halfStar.there = false
     }
     this.setState({
       stars: this.getArrayOfStars(offset)
+    })
+  }
+
+  mouseOverHalfStar(event) {
+    this.setState({
+      stars: this.getArrayOfStars(this.state.halfStar.wasOn - 1)
     })
   }
 
@@ -101,12 +115,17 @@ class ReactStars extends Component {
       width: `${(this.state.config.size / 2)}px`,
       fontSize: `${this.state.config.size}px`,
       position: 'absolute',
-      left: `${this.state.halfStar.x}px`
+      left: `${this.state.halfStar.x}px`,
+      display: this.state.halfStar.there ? 'block' : 'none',
+      color: this.state.config.color2,
+      cursor: 'pointer'
     })
     return (
       <span
         style={halfStarStyle}
-        ref={(e) => this.state.halfStar.element = e}>
+        ref={(e) => this.state.halfStar.element = e}
+        onMouseOver={this.mouseOverHalfStar.bind(this)}
+        onMouseMove={this.mouseOverHalfStar.bind(this)}>
         {this.state.config.char}
       </span>
     )
