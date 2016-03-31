@@ -176,7 +176,6 @@ class ReactStars extends Component {
   renderStars() {
     const { color1, color2, size, char } = this.state.config
     return this.state.stars.map((star, i) => {
-      // will be merged with default styles later
       const style = Object.assign({},
         defaultStyles, {
           color: star.active ? color2 : color1,
