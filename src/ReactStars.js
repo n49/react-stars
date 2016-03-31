@@ -21,7 +21,6 @@ class ReactStars extends Component {
       value: props.value || 0,
       stars: [],
       halfStar: props.half ? {
-        x: 0,
         there: false,
         wasOn: 0
       } : null
@@ -54,8 +53,15 @@ class ReactStars extends Component {
   }
 
   componentDidMount() {
+    let starArray = []
+    if(this.state.config.half) {
+      if(Math.round(this.state.value % 1) === 1) {
+        this.state.halfStar.there = true
+        this.state.halfStar.wasOn = Math.floor(this.state.value)
+      }
+    }
     this.setState({
-      stars: this.getArrayOfStars(this.state.value)
+      stars: this.getArrayOfStars(this.state.value - 1)
     })
   }
 
@@ -76,7 +82,6 @@ class ReactStars extends Component {
     var mouseAt = event.pageX - event.target.offsetLeft - parentOffsetLeft
     if(mouseAt < this.state.config.size / 2 + 5) {
       this.state.halfStar.there = true
-      this.state.halfStar.x = offset * this.state.config.size
       this.state.halfStar.wasOn = offset
     } else {
       this.state.halfStar.there = false
@@ -107,21 +112,20 @@ class ReactStars extends Component {
     })
     const rating = offset + 1
     this.props.onRatingChange(rating)
-    console.log(rating)
   }
 
   clickedHalfStar(event) {
     const rating = this.state.halfStar.wasOn + 0.5
-    console.log(rating)
   }
 
   renderHalfStar() {
+    let leftHalfStarOffset = this.state.halfStar.wasOn * this.state.config.size
     const halfStarStyle = Object.assign({
       overflow: 'hidden',
       width: `${(this.state.config.size / 2)}px`,
       fontSize: `${this.state.config.size}px`,
       position: 'absolute',
-      left: `${this.state.halfStar.x}px`,
+      left: `${leftHalfStarOffset}px`,
       display: this.state.halfStar.there ? 'block' : 'none',
       color: this.state.config.color2,
       cursor: 'pointer'
