@@ -36,7 +36,7 @@ class ReactStars extends Component {
 
     this.state.config = {
       count:  props.starCount || 5,
-      size:   props.size || 24,
+      size:   props.size || 15,
       char:   props.char || '★',
       // default color of inactive star
       color1: props.color1 || 'gray',
