@@ -88,12 +88,10 @@ class ReactStars extends Component {
   }
 
   mouseOver(event) {
-
     if(!this.state.config.edit) return;
-
-    var starIndex = Number(event.target.getAttribute('data-key'))
-    var parentLeft = event.target.parentNode.offsetLeft
-    var mouseAt = event.pageX - event.target.offsetLeft - parentLeft
+    let starIndex = Number(event.target.getAttribute('data-key'))
+    let parentLeft = event.target.parentNode.offsetLeft
+    let mouseAt = event.pageX - event.target.offsetLeft - parentLeft
     if(mouseAt < this.state.config.size / 2) {
       this.state.halfStar.at = starIndex
       this.state.halfStar.hidden = false
@@ -109,27 +107,25 @@ class ReactStars extends Component {
   }
 
   mouseOverHalfStar(event) {
-
-    if(!this.state.config.edit) return;
-
+    if(!this.state.config.edit || !this.state.config.half) {
+      return false;
+    }
     this.setState({
       stars: this.getStars(this.state.halfStar.at - 1)
     })
   }
 
   mouseLeave() {
-
     if(!this.state.config.edit) return;
-
     this.setState({
       stars: this.getStars()
     })
   }
 
   mouseLeaveHalfStar() {
-
-    if(!this.state.config.edit) return;
-
+    if(!this.state.config.edit || !this.state.config.half) {
+      return false;
+    }
     this.setState({
       stars: this.getStars()
     })
@@ -137,8 +133,7 @@ class ReactStars extends Component {
 
   clicked(event) {
     if(!this.state.config.edit) return;
-    var offset = Number(event.target.getAttribute('data-key'))
-    var x = event.pageX - event.target.offsetLeft
+    const offset = Number(event.target.getAttribute('data-key'))
     this.setState({
       value: offset,
       stars: this.getStars(offset)
