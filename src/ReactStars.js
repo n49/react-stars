@@ -61,7 +61,9 @@ class ReactStars extends Component {
   }
 
   componentDidMount() {
-    this.state.halfStar.at = this.rateBrakeDown().stars + 1
+    if(this.state.config.half) {
+      this.state.halfStar.at = this.rateBrakeDown().stars + 1
+    }
     this.setState({
       stars: this.getStars()
     })
@@ -152,6 +154,7 @@ class ReactStars extends Component {
 
   renderHalfStar() {
     let { config, halfStar } = this.state
+    if(!config.half) return
     let starLeft = halfStar.at * config.size
     const style = Object.assign({}, halfStarStyles, {
       width:    `${(config.size / 2)}px`,
