@@ -136,9 +136,7 @@ class ReactStars extends Component {
   }
 
   clicked(event) {
-
     if(!this.state.config.edit) return;
-
     var offset = Number(event.target.getAttribute('data-key'))
     var x = event.pageX - event.target.offsetLeft
     this.setState({
@@ -159,18 +157,18 @@ class ReactStars extends Component {
   }
 
   renderHalfStar() {
-    let leftHalfStarOffset = this.state.halfStar.at * this.state.config.size
+    let { config, halfStar } = this.state
+    let starLeft = halfStar.at * config.size
     const style = Object.assign({}, halfStarStyles, {
-      width: `${(this.state.config.size / 2)}px`,
-      fontSize: `${this.state.config.size}px`,
-      left: `${leftHalfStarOffset}px`,
-      display: this.state.halfStar.hidden ? 'none' : 'block',
-      color: this.state.config.color2,
+      width:    `${(config.size / 2)}px`,
+      fontSize: `${config.size}px`,
+      left:     `${starLeft}px`,
+      display:   halfStar.hidden ? 'none' : 'block',
+      color:     config.color2,
     })
     return (
       <span
         style={style}
-        ref={(e) => this.state.halfStar.element = e}
         onMouseOver={this.mouseOverHalfStar.bind(this)}
         onMouseMove={this.mouseOverHalfStar.bind(this)}
         onClick={this.clickedHalfStar.bind(this)}
