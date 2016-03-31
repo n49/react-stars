@@ -23,9 +23,7 @@ class ReactStars extends Component {
       // default color of inactive star
       color1: props.color1 || 'gray',
       // color of an active star
-      color2: props.color2 || '#ffd700',
-      // color color of a hovered star
-      color3: props.color3 || props.color2 || 'orange'
+      color2: props.color2 || '#ffd700'
     }
 
   }
@@ -64,6 +62,15 @@ class ReactStars extends Component {
     })
   }
 
+  clicked(event) {
+    var dataKey = Number(event.target.getAttribute('data-key'))
+    console.log(dataKey)
+    this.setState({
+      value: dataKey,
+      stars: this.getArrayOfStars(dataKey)
+    })
+  }
+
   renderStars() {
     const { color1, color2, size, char } = this.state.config
     return this.state.stars.map((star, i) => {
@@ -78,7 +85,8 @@ class ReactStars extends Component {
           data-key={i}
           onMouseOver={this.mouseOver.bind(this)}
           onMouseMove={this.mouseOver.bind(this)}
-          onMouseLeave={this.mouseLeave.bind(this)}>
+          onMouseLeave={this.mouseLeave.bind(this)}
+          onClick={this.clicked.bind(this)}>
           {char}
         </span>
       )
