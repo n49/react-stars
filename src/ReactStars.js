@@ -14,6 +14,16 @@ class ReactStars extends Component {
       value: props.value || 0
     }
 
+    // validation of props that are true / false
+
+    if(typeof props.edit === 'undefined') {
+      props.edit = true
+    }
+
+    if(typeof props.half === 'undefined') {
+      props.half = true
+    }
+
     this.state.config = {
       count:  props.starCount || 5,
       size:   props.size || 24,
