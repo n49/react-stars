@@ -59,9 +59,9 @@ class ReactStars extends Component {
   }
 
   mouseOver(event) {
-    var dataKey = Number(event.target.getAttribute('data-key'))
+    var offset = Number(event.target.getAttribute('data-key'))
     this.setState({
-      stars: this.getArrayOfStars(dataKey)
+      stars: this.getArrayOfStars(offset)
     })
   }
 
@@ -72,12 +72,13 @@ class ReactStars extends Component {
   }
 
   clicked(event) {
-    var dataKey = Number(event.target.getAttribute('data-key'))
-    console.log(dataKey)
+    var offset = Number(event.target.getAttribute('data-key'))
     this.setState({
-      value: dataKey,
-      stars: this.getArrayOfStars(dataKey)
+      value: offset,
+      stars: this.getArrayOfStars(offset)
     })
+    const rating = offset + 1
+    this.props.onRatingChange(rating)
   }
 
   renderStars() {
