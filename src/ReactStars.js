@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 
 const parentStyles = {
-  overflow: 'hidden'
+  overflow: 'hidden',
+  position: 'relative'
 }
 
 const defaultStyles = {
@@ -18,7 +19,8 @@ class ReactStars extends Component {
 
     this.state = {
       value: props.value || 0,
-      stars: []
+      stars: [],
+      halfStar: props.half ? {} : null
     }
 
     this.state.config = {
@@ -66,6 +68,11 @@ class ReactStars extends Component {
 
   mouseOver(event) {
     var offset = Number(event.target.getAttribute('data-key'))
+    var parentOffsetLeft = event.target.parentNode.offsetLeft
+    var mouseAt = event.pageX - event.target.offsetLeft - parentOffsetLeft
+    if(mouseAt < this.state.config.size / 2) {
+      this.state.halfStar.x = offset * this.state.config.size
+    }
     this.setState({
       stars: this.getArrayOfStars(offset)
     })
@@ -79,8 +86,7 @@ class ReactStars extends Component {
 
   clicked(event) {
     var offset = Number(event.target.getAttribute('data-key'))
-    var x = event.pageX - event.target.offsetLeft;
-    console.log(x)
+    var x = event.pageX - event.target.offsetLeft
     this.setState({
       value: offset,
       stars: this.getArrayOfStars(offset)
@@ -93,10 +99,14 @@ class ReactStars extends Component {
     const halfStarStyle = Object.assign({
       overflow: 'hidden',
       width: `${(this.state.config.size / 2)}px`,
-      fontSize: `${this.state.config.size}px`
+      fontSize: `${this.state.config.size}px`,
+      position: 'absolute',
+      left: `${this.state.halfStar.x}px`
     })
     return (
-      <span style={halfStarStyle}>
+      <span
+        style={halfStarStyle}
+        ref={(e) => this.state.halfStar.element = e}>
         {this.state.config.char}
       </span>
     )
@@ -111,7 +121,8 @@ class ReactStars extends Component {
         fontSize: `${size}px`
       }, defaultStyles)
       return (
-        <span style={style}
+        <span
+          style={style}
           key={i}
           data-key={i}
           onMouseOver={this.mouseOver.bind(this)}
