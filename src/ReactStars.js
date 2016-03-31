@@ -26,10 +26,10 @@ class ReactStars extends Component {
     this.state = {
       value: props.value || 0,
       stars: [],
-      halfStar: props.half ? {
-        there: false,
-        wasOn: 0
-      } : null
+      halfStar: {
+        at: 0,
+        hidden: false
+      }
     }
 
     this.state.config = {
@@ -59,24 +59,29 @@ class ReactStars extends Component {
   }
 
   componentDidMount() {
-    let starArray = []
-    if(this.state.config.half) {
-      if(Math.round(this.state.value % 1) === 1) {
-        this.state.halfStar.there = true
-        this.state.halfStar.wasOn = Math.floor(this.state.value)
-      }
-    }
     this.setState({
-      stars: this.getStars(this.state.value - 1)
+      stars: this.getStars()
     })
   }
 
+  rateBrakeDown() {
+    let hasHalfStar = Math.round(this.state.value % 1) === 1
+    let stars = Math.floor(this.state.value) - (hasHalfStar ? 1 : 0)
+    return {
+      stars,
+      hasHalfStar
+    }
+  }
+
   /** Returns an array of stars with their properties */
-  getStars(numberActive) {
+  getStars(activeCount) {
+    if(typeof activeCount === 'undefined') {
+      activeCount = this.rateBrakeDown().stars
+    }
     let stars = []
     for(let i = 0; i < this.state.config.count; i++) {
       stars.push({
-        active: i <= numberActive
+        active: i <= activeCount
       })
     }
     return stars
@@ -86,26 +91,36 @@ class ReactStars extends Component {
     var starIndex = Number(event.target.getAttribute('data-key'))
     var parentLeft = event.target.parentNode.offsetLeft
     var mouseAt = event.pageX - event.target.offsetLeft - parentLeft
-    if(mouseAt < this.state.config.size / 2 + 5) {
-      this.state.halfStar.there = true
-      this.state.halfStar.wasOn = starIndex
+    if(mouseAt < this.state.config.size / 2) {
+      this.state.halfStar.at = starIndex
+      this.state.halfStar.hidden = false
+      this.setState({
+        stars: this.getStars(starIndex)
+      })
     } else {
-      this.state.halfStar.there = false
+      this.state.halfStar.hidden = true
+      this.setState({
+        stars: this.getStars(starIndex)
+      })
     }
-    this.setState({
-      stars: this.getStars(starIndex)
-    })
   }
 
   mouseOverHalfStar(event) {
     this.setState({
-      stars: this.getStars(this.state.halfStar.wasOn - 1)
+      stars: this.getStars(this.state.halfStar.at - 1)
     })
   }
 
   mouseLeave() {
     this.setState({
-      stars: this.getStars(this.state.value)
+      stars: this.getStars()
+    })
+  }
+
+  mouseLeaveHalfStar() {
+
+    this.setState({
+      stars: this.getStars()
     })
   }
 
@@ -121,16 +136,19 @@ class ReactStars extends Component {
   }
 
   clickedHalfStar(event) {
-    const rating = this.state.halfStar.wasOn + 0.5
+    this.setState({
+      value: this.state.halfStar.at + 0.5
+    })
+    this.props.onRatingChange(this.state.halfStar.at + 0.5)
   }
 
   renderHalfStar() {
-    let leftHalfStarOffset = this.state.halfStar.wasOn * this.state.config.size
+    let leftHalfStarOffset = this.state.halfStar.at * this.state.config.size
     const style = Object.assign({}, halfStarStyles, {
       width: `${(this.state.config.size / 2)}px`,
       fontSize: `${this.state.config.size}px`,
       left: `${leftHalfStarOffset}px`,
-      display: this.state.halfStar.there ? 'block' : 'none',
+      display: this.state.halfStar.hidden ? 'none' : 'block',
       color: this.state.config.color2,
     })
     return (
@@ -139,7 +157,8 @@ class ReactStars extends Component {
         ref={(e) => this.state.halfStar.element = e}
         onMouseOver={this.mouseOverHalfStar.bind(this)}
         onMouseMove={this.mouseOverHalfStar.bind(this)}
-        onClick={this.clickedHalfStar.bind(this)}>
+        onClick={this.clickedHalfStar.bind(this)}
+        onMouseLeave={this.mouseLeaveHalfStar.bind(this)}>
         {this.state.config.char}
       </span>
     )
