@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
 
+const parentStyles = {
+  overflow: 'hidden'
+}
+
 const defaultStyles = {
-  cursor: 'pointer'
+  cursor: 'pointer',
+  display: 'block',
+  float: 'left'
 }
 
 class ReactStars extends Component {
@@ -73,12 +79,27 @@ class ReactStars extends Component {
 
   clicked(event) {
     var offset = Number(event.target.getAttribute('data-key'))
+    var x = event.pageX - event.target.offsetLeft;
+    console.log(x)
     this.setState({
       value: offset,
       stars: this.getArrayOfStars(offset)
     })
     const rating = offset + 1
     this.props.onRatingChange(rating)
+  }
+
+  renderHalfStar() {
+    const halfStarStyle = Object.assign({
+      overflow: 'hidden',
+      width: `${(this.state.config.size / 2)}px`,
+      fontSize: `${this.state.config.size}px`
+    })
+    return (
+      <span style={halfStarStyle}>
+        {this.state.config.char}
+      </span>
+    )
   }
 
   renderStars() {
@@ -105,8 +126,9 @@ class ReactStars extends Component {
 
   render() {
     return (
-      <div>
+      <div style={parentStyles}>
         {this.renderStars()}
+        {this.renderHalfStar()}
       </div>
     )
   }
