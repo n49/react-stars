@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
 
+const defaultStyles = {
+  cursor: 'pointer'
+}
+
 class ReactStars extends Component {
 
   constructor(props) {
@@ -32,37 +36,49 @@ class ReactStars extends Component {
 
   componentDidMount() {
     this.setState({
-      stars: this.getArrayOfStars()
+      stars: this.getArrayOfStars(this.state.value)
     })
   }
 
   /** Returns an array of stars with their properties */
-  getArrayOfStars() {
+  getArrayOfStars(numberActive) {
     let stars = []
     for(let i = 0; i < this.state.config.count; i++) {
       stars.push({
-        active: i <= this.state.value
+        active: i <= numberActive
       })
     }
     return stars
   }
 
-  mouseOver(...args) {
-    console.log(args)
+  mouseOver(event) {
+    var dataKey = Number(event.target.getAttribute('data-key'))
+    this.setState({
+      stars: this.getArrayOfStars(dataKey)
+    })
+  }
+
+  mouseLeave() {
+    this.setState({
+      stars: this.getArrayOfStars(this.state.value)
+    })
   }
 
   renderStars() {
     const { color1, color2, size, char } = this.state.config
     return this.state.stars.map((star, i) => {
       // will be merged with default styles later
-      const style = Object.assign({}, {
+      const style = Object.assign({
         color: star.active ? color2 : color1,
         fontSize: `${size}px`
-      })
+      }, defaultStyles)
       return (
         <span style={style}
           key={i}
-          onMouseOver={this.mouseOver.bind(this)}>
+          data-key={i}
+          onMouseOver={this.mouseOver.bind(this)}
+          onMouseMove={this.mouseOver.bind(this)}
+          onMouseLeave={this.mouseLeave.bind(this)}>
           {char}
         </span>
       )
