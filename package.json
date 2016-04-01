@@ -3,6 +3,7 @@
   "version": "2.0.1",
   "description": "Simple star rating component for your React projects",
   "main": "dist/react-stars.js",
+  "repository": "https://github.com/n49/react-stars"
   "babel": {
     "presets": [
       "react",
@@ -28,9 +29,5 @@
     "babel-cli": "^6.6.5",
     "babel-preset-es2015": "^6.6.0",
     "babel-preset-react": "^6.5.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/n49/react-stars"
   }
 }
