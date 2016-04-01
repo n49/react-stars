@@ -24,11 +24,11 @@ class ReactStars extends Component {
     super(props)
 
     this.state = {
-      value: props.value - 1 || 0,
+      value: props.value || 0,
       stars: [],
       halfStar: props.half ? {
-        at: 0,
-        hidden: false
+        at: props.value,
+        hidden: true
       } : null
     }
 
@@ -60,12 +60,12 @@ class ReactStars extends Component {
 
   componentDidMount() {
     this.setState({
-      stars: this.getStars()
+      stars: this.getStars(this.state.value)
     })
   }
 
   getRate() {
-    let half, stars
+    let stars
     if(this.state.config.half) {
       stars = Math.floor(this.state.value)
     } else {
@@ -81,7 +81,7 @@ class ReactStars extends Component {
     let stars = []
     for(let i = 0; i < this.state.config.count; i++) {
       stars.push({
-        active: i <= activeCount
+        active: i <= activeCount - 1
       })
     }
     return stars
@@ -89,41 +89,37 @@ class ReactStars extends Component {
 
   mouseOver(event) {
     let { config, halfStar } = this.state
-    let { target } = event
     if(!config.edit) return;
     let index = Number(event.target.getAttribute('data-index'))
-    let mouseAt = event.pageX - target.offsetLeft - target.parentNode.offsetLeft
     if(config.half) {
-      if(mouseAt < config.size / 2) {
-        halfStar.at = index
-        halfStar.hidden = false
-      } else {
+      if(this.moreThanHalf(event, config.size)) {
+        console.log('mouseover hidden true')
         halfStar.hidden = true
+        index = index + 1
+      } else {
+        halfStar.hidden = false
       }
     }
+    halfStar.at = index
     this.setState({
       stars: this.getStars(index)
     })
   }
 
-  mouseOverHalfStar(event) {
-    if(!this.state.config.edit || !this.state.config.half) {
-      return false;
-    }
-    this.setState({
-      stars: this.getStars(this.state.halfStar.at - 1)
-    })
+  moreThanHalf(event, size) {
+    let { target } = event
+    let mouseAt = event.pageX - target.offsetLeft - target.parentNode.offsetLeft
+    return mouseAt > size / 2
   }
 
   mouseLeave() {
     if(!this.state.config.edit) return
-    this.setState({
-      stars: this.getStars()
-    })
-  }
-
-  mouseLeaveHalfStar() {
-    this.state.halfStar.at = this.getRate() + 1
+    if(this.state.value % 1 !== 0) {
+      this.state.halfStar.hidden = false
+    } else {
+      this.state.halfStar.hidden = true
+    }
+    this.state.halfStar.at = Math.floor(this.state.value)
     this.setState({
       stars: this.getStars()
     })
@@ -131,62 +127,71 @@ class ReactStars extends Component {
 
   clicked(event) {
     if(!this.state.config.edit) return
-    const index = Number(event.target.getAttribute('data-index'))
+    const {config, halfStar} = this.state
+    let index = Number(event.target.getAttribute('data-index'))
+    let value
+    if(config.half) {
+      if(this.moreThanHalf(event, config.size)) {
+        halfStar.hidden = true
+        index = index + 1
+        value = index
+      } else {
+        value = index + .5
+        halfStar.hidden = false
+      }
+    }
+    halfStar.at = index
     this.setState({
-      value: index,
+      value: value,
       stars: this.getStars(index)
     })
-    this.props.onChange(index + 1)
+    this.props.onChange(value)
   }
 
-  clickedHalfStar(event) {
-    let { config, halfStar } = this.state
-    if(!config.edit || !config.half) return;
-    this.setState({
-      value: halfStar.at + 0.5
-    })
-    this.props.onChange(halfStar.at + 0.5)
-  }
-
-  renderHalfStar() {
-    let { config, halfStar } = this.state
-    if(!config.half) return
-    let starLeft = halfStar.at * config.size
-    const style = Object.assign({}, halfStarStyles, {
-      width:    `${(config.size / 2)}px`,
-      fontSize: `${config.size}px`,
-      left:     `${starLeft}px`,
-      display:   halfStar.hidden ? 'none' : 'block',
-      color:     config.color2,
-    })
+  renderStyleElement() {
     return (
-      <span
-        style={style}
-        onMouseOver={this.mouseOverHalfStar.bind(this)}
-        onMouseMove={this.mouseOverHalfStar.bind(this)}
-        onClick={this.clickedHalfStar.bind(this)}
-        onMouseLeave={this.mouseLeaveHalfStar.bind(this)}>
-        {this.state.config.char}
-      </span>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+        .react-stars-star:before {
+        display:block;
+        z-index:1;
+        position:absolute;
+        top:0;
+        left:0;
+        width: 50%;
+        content: attr(data-content);
+        overflow:hidden;
+        color: ${this.state.config.color2};
+        }
+        `
+      }}></style>
     )
   }
 
   renderStars() {
     const { color1, color2, size, char } = this.state.config
     return this.state.stars.map((star, i) => {
+      let half = ''
+      if(!this.state.halfStar.hidden && this.state.halfStar.at === i) {
+        half = 'react-stars-star'
+      }
       const style = Object.assign({}, defaultStyles, {
         color:    star.active ? color2 : color1,
-        fontSize: `${size}px`
+        fontSize: `${size}px`,
+        position: 'relative',
+        overflow: 'hidden'
       })
       return (
         <span
+          className={half}
           style={style}
           key={i}
           data-index={i}
           onMouseOver={this.mouseOver.bind(this)}
           onMouseMove={this.mouseOver.bind(this)}
           onMouseLeave={this.mouseLeave.bind(this)}
-          onClick={this.clicked.bind(this)}>
+          onClick={this.clicked.bind(this)}
+          data-content={char}>
           {char}
         </span>
       )
@@ -196,8 +201,8 @@ class ReactStars extends Component {
   render() {
     return (
       <div style={parentStyles}>
+        {this.renderStyleElement()}
         {this.renderStars()}
-        {this.renderHalfStar()}
       </div>
     )
   }
