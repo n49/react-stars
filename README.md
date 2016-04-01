@@ -1,4 +1,4 @@
-# ★ ReactStars ★
+# ReactStars :star:
 ###### A simple star rating component for your React projects
 
 ![ReactStars](http://i.imgur.com/VDbzbqF.gif)
@@ -34,8 +34,8 @@ This a list of props that you can pass down to the component:
 | `color2` | Color of selected or active star | `#ffd700` | string |
 | `size` | Size of stars (in px) | `15px` | string |
 | `edit` | Should you be able to select rating or just see rating (for reusability) | `true` | boolean |
-| `half` | (DON'T USE YET) Should component use half stars, if not the decimal part will be dropped | `false` | boolean |
-| `onChange(new_rating)` | Will be invoked any time the rating is changed | | function |
+| `half` | Should component use half stars, if not the decimal part will be dropped otherwise normal algebra rools will apply to round to half stars | `false` | boolean
+| `onChange(new_rating)` | Will be invoked any time the rating is changed | `null` | function |
 
 ### Requirements
 
@@ -43,4 +43,4 @@ You will need to have React in your project in order to use the component, I did
 
 ### Todo
 
-* I need to fix half star mode
+* Make better docs
