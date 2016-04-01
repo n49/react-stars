@@ -38,12 +38,12 @@ class ReactStars extends Component {
       stars: [],
       halfStar: props.half ? {
         at: Math.floor(props.value),
-        hidden: props.half && !this.isDecimal(props.value)
+        hidden: props.half && props.value % 1 < 0.5
       } : null
     }
 
     this.state.config = {
-      count:  props.starCount || 5,
+      count:  props.count || 5,
       size:   props.size || 15,
       char:   props.char || '★',
       // default color of inactive star
