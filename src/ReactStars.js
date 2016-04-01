@@ -6,15 +6,25 @@ const parentStyles = {
 }
 
 const defaultStyles = {
-  cursor: 'pointer',
-  display: 'block',
-  float: 'left'
+  position: 'relative',
+  overflow: 'hidden',
+  cursor:   'pointer',
+  display:  'block',
+  float:    'left'
 }
 
-const halfStarStyles = {
-  cursor: 'pointer',
-  position: 'absolute',
-  overflow: 'hidden'
+const getHalfStarStyles = (color) => {
+  return `
+    .react-stars-half-star:before {
+      position: absolute;
+      overflow: hidden;
+      display: block;
+      z-index: 1;
+      top: 0; left: 0;
+      width: 50%;
+      content: attr(data-forhalf);
+      color: ${color};
+  }`
 }
 
 class ReactStars extends Component {
@@ -136,7 +146,7 @@ class ReactStars extends Component {
         index = index + 1
         value = index
       } else {
-        value = index + .5
+        value = index + 0.5
       }
       halfStar.at = index
     } else {
@@ -149,50 +159,37 @@ class ReactStars extends Component {
     this.props.onChange(value)
   }
 
-  renderStyleElement() {
+  renderHalfStarStyleElement() {
     return (
       <style dangerouslySetInnerHTML={{
-        __html: `
-        .react-stars-star:before {
-        display:block;
-        z-index:1;
-        position:absolute;
-        top:0;
-        left:0;
-        width: 50%;
-        content: attr(data-content);
-        overflow:hidden;
-        color: ${this.state.config.color2};
-        }
-        `
+        __html: getHalfStarStyles(this.state.config.color2)
       }}></style>
     )
   }
 
   renderStars() {
-    const { color1, color2, size, char } = this.state.config
-    return this.state.stars.map((star, i) => {
-      let half = ''
-      if(!this.state.halfStar.hidden && this.state.halfStar.at === i) {
-        half = 'react-stars-star'
+    const { halfStar, stars } = this.state
+    const { color1, color2, size, char, half } = this.state.config
+    return stars.map((star, i) => {
+      let starClass = ''
+      if(half && !halfStar.hidden && halfStar.at === i) {
+        starClass = 'react-stars-half-star'
       }
       const style = Object.assign({}, defaultStyles, {
         color:    star.active ? color2 : color1,
-        fontSize: `${size}px`,
-        position: 'relative',
-        overflow: 'hidden'
+        fontSize: `${size}px`
       })
       return (
         <span
-          className={half}
+          className={starClass}
           style={style}
           key={i}
           data-index={i}
+          data-forhalf={char}
           onMouseOver={this.mouseOver.bind(this)}
           onMouseMove={this.mouseOver.bind(this)}
           onMouseLeave={this.mouseLeave.bind(this)}
-          onClick={this.clicked.bind(this)}
-          data-content={char}>
+          onClick={this.clicked.bind(this)}>
           {char}
         </span>
       )
@@ -202,7 +199,8 @@ class ReactStars extends Component {
   render() {
     return (
       <div style={parentStyles}>
-        {this.renderStyleElement()}
+        {this.state.config.half ?
+        this.renderHalfStarStyleElement() : ''}
         {this.renderStars()}
       </div>
     )
