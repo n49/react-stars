@@ -36,10 +36,10 @@ class ReactStars extends Component {
     this.state = {
       value: props.value || 0,
       stars: [],
-      halfStar: props.half ? {
+      halfStar: {
         at: Math.floor(props.value),
         hidden: props.half && props.value % 1 < 0.5
-      } : null
+      }
     }
 
     this.state.config = {
