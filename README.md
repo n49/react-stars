@@ -1,7 +1,7 @@
-# ReactStars :star:
+# react-stars :star:
 ###### A simple star rating component for your React projects
 
-![ReactStars](http://i.imgur.com/VDbzbqF.gif)
+![react-stars](http://i.imgur.com/VDbzbqF.gif)
 
 ### Get started quickly
 ```javascript
