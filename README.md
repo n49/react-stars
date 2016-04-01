@@ -1,6 +1,8 @@
 # ★ ReactStars ★
 ###### A simple star rating component for your React projects
 
+![ReactStars](http://i.imgur.com/VDbzbqF.gif)
+
 ### Get started quickly
 ```
 import ReactStars from 'react-stars'
