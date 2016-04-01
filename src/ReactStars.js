@@ -110,6 +110,8 @@ class ReactStars extends Component {
       halfStar.hidden = isAtHalf
       if(isAtHalf) index = index + 1
       halfStar.at = index
+    } else {
+      index = index + 1
     }
     this.setState({
       stars: this.getStars(index)
@@ -146,7 +148,7 @@ class ReactStars extends Component {
       value = isAtHalf ? index : index + .5
       halfStar.at = index
     } else {
-      value = value + 1
+      value = index = index + 1
     }
     this.setState({
       value: value,
