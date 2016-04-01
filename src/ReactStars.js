@@ -142,12 +142,8 @@ class ReactStars extends Component {
     if(config.half) {
       const isAtHalf = this.moreThanHalf(event, config.size)
       halfStar.hidden = isAtHalf
-      if(isAtHalf) {
-        index = index + 1
-        value = index
-      } else {
-        value = index + 0.5
-      }
+      if(isAtHalf) index = index + 1
+      value = isAtHalf ? index : index + .5
       halfStar.at = index
     } else {
       value = value + 1
