@@ -64,6 +64,10 @@ class ReactStars extends Component {
     })
   }
 
+  isDecimal(value) {
+    return value % 1 !== 0
+  }
+
   getRate() {
     let stars
     if(this.state.config.half) {
@@ -92,15 +96,11 @@ class ReactStars extends Component {
     if(!config.edit) return;
     let index = Number(event.target.getAttribute('data-index'))
     if(config.half) {
-      if(this.moreThanHalf(event, config.size)) {
-        console.log('mouseover hidden true')
-        halfStar.hidden = true
-        index = index + 1
-      } else {
-        halfStar.hidden = false
-      }
+      const isAtHalf = this.moreThanHalf(event, config.size)
+      halfStar.hidden = isAtHalf
+      if(isAtHalf) index = index + 1
+      halfStar.at = index
     }
-    halfStar.at = index
     this.setState({
       stars: this.getStars(index)
     })
@@ -113,34 +113,35 @@ class ReactStars extends Component {
   }
 
   mouseLeave() {
-    if(!this.state.config.edit) return
-    if(this.state.value % 1 !== 0) {
-      this.state.halfStar.hidden = false
-    } else {
-      this.state.halfStar.hidden = true
+    const { value, halfStar, config } = this.state
+    if(!config.edit) return
+    if(config.half) {
+      halfStar.hidden = !this.isDecimal(value)
+      halfStar.at = Math.floor(this.state.value)
     }
-    this.state.halfStar.at = Math.floor(this.state.value)
     this.setState({
       stars: this.getStars()
     })
   }
 
   clicked(event) {
-    if(!this.state.config.edit) return
-    const {config, halfStar} = this.state
+    const { config, halfStar } = this.state
+    if(!config.edit) return
     let index = Number(event.target.getAttribute('data-index'))
     let value
     if(config.half) {
-      if(this.moreThanHalf(event, config.size)) {
-        halfStar.hidden = true
+      const isAtHalf = this.moreThanHalf(event, config.size)
+      halfStar.hidden = isAtHalf
+      if(isAtHalf) {
         index = index + 1
         value = index
       } else {
         value = index + .5
-        halfStar.hidden = false
       }
+      halfStar.at = index
+    } else {
+      value = value + 1
     }
-    halfStar.at = index
     this.setState({
       value: value,
       stars: this.getStars(index)
