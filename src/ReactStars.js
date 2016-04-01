@@ -23,10 +23,8 @@ class ReactStars extends Component {
 
     super(props)
 
-    console.error('Initial value is ' + props.value)
-
     this.state = {
-      value: props.value || 0,
+      value: props.value - 1 || 0,
       stars: [],
       halfStar: props.half ? {
         at: 0,
@@ -53,7 +51,7 @@ class ReactStars extends Component {
     }
 
     if(typeof props.half === 'undefined') {
-      this.state.config.half = true
+      this.state.config.half = false
     } else {
       this.state.config.half = props.half
     }
@@ -61,26 +59,24 @@ class ReactStars extends Component {
   }
 
   componentDidMount() {
-    if(this.state.config.half) {
-      this.state.halfStar.at = this.rateBrakeDown().stars + 1
-    }
     this.setState({
       stars: this.getStars()
     })
   }
 
-  rateBrakeDown() {
-    let hasHalfStar = Math.round(this.state.value % 1) === 1
-    let stars = Math.floor(this.state.value) - (hasHalfStar ? 1 : 0)
-    return {
-      stars,
-      hasHalfStar
+  getRate() {
+    let half, stars
+    if(this.state.config.half) {
+      stars = Math.floor(this.state.value)
+    } else {
+      stars = Math.round(this.state.value)
     }
+    return stars
   }
 
   getStars(activeCount) {
     if(typeof activeCount === 'undefined') {
-      activeCount = this.rateBrakeDown().stars
+      activeCount = this.getRate()
     }
     let stars = []
     for(let i = 0; i < this.state.config.count; i++) {
@@ -127,7 +123,7 @@ class ReactStars extends Component {
   }
 
   mouseLeaveHalfStar() {
-    this.state.halfStar.at = this.rateBrakeDown().stars + 1
+    this.state.halfStar.at = this.getRate() + 1
     this.setState({
       stars: this.getStars()
     })
