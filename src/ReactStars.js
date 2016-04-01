@@ -37,8 +37,8 @@ class ReactStars extends Component {
       value: props.value || 0,
       stars: [],
       halfStar: props.half ? {
-        at: props.value,
-        hidden: true
+        at: Math.floor(props.value),
+        hidden: props.half && !this.isDecimal(props.value)
       } : null
     }
 
