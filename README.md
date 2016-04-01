@@ -4,7 +4,7 @@
 ![ReactStars](http://i.imgur.com/VDbzbqF.gif)
 
 ### Get started quickly
-```
+```javascript
 import ReactStars from 'react-stars'
 import React from 'react'
 import { render } from 'react-dom'
