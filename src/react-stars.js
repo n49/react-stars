@@ -61,7 +61,7 @@ class ReactStars extends Component {
     }
 
     if(typeof props.half === 'undefined') {
-      this.state.config.half = false
+      this.state.config.half = true
     } else {
       this.state.config.half = props.half
     }
@@ -120,7 +120,8 @@ class ReactStars extends Component {
 
   moreThanHalf(event, size) {
     let { target } = event
-    let mouseAt = event.pageX - target.offsetLeft - target.parentNode.offsetLeft
+    var mouseAt = event.clientX - target.getBoundingClientRect().left
+    mouseAt = Math.round(Math.abs(mouseAt))
     return mouseAt > size / 2
   }
 
