@@ -1,9 +1,15 @@
 # react-stars :star:
-###### A simple star rating component for your React projects
+###### A simple star rating component for your React projects (now with half stars and custom characters)
 
 ![react-stars](http://i.imgur.com/VDbzbqF.gif)
 
 ### Get started quickly
+
+###### Install react-stars package with NPM:
+`npm install react-stars --save`
+
+Then in your project include the component:
+
 ```javascript
 import ReactStars from 'react-stars'
 import React from 'react'
