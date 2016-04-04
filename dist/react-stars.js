@@ -41,7 +41,23 @@ var ReactStars = function (_Component) {
   function ReactStars(props) {
     _classCallCheck(this, ReactStars);
 
+    // set defaults
+
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ReactStars).call(this, props));
+
+    props = Object.assign({}, props);
+
+    if (typeof props.edit === 'undefined') {
+      props.edit = true;
+    } else {
+      props.edit = false;
+    }
+
+    if (typeof props.half === 'undefined') {
+      props.half = true;
+    } else {
+      props.half = false;
+    }
 
     _this.state = {
       value: props.value || 0,
@@ -59,22 +75,10 @@ var ReactStars = function (_Component) {
       // default color of inactive star
       color1: props.color1 || 'gray',
       // color of an active star
-      color2: props.color2 || '#ffd700'
+      color2: props.color2 || '#ffd700',
+      half: props.half,
+      edit: props.edit
     };
-
-    // validation of props that are true / false
-
-    if (typeof props.edit === 'undefined') {
-      _this.state.config.edit = true;
-    } else {
-      _this.state.config.edit = props.edit;
-    }
-
-    if (typeof props.half === 'undefined') {
-      _this.state.config.half = true;
-    } else {
-      _this.state.config.half = props.half;
-    }
 
     return _this;
   }
@@ -84,6 +88,18 @@ var ReactStars = function (_Component) {
     value: function componentDidMount() {
       this.setState({
         stars: this.getStars(this.state.value)
+      });
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(props) {
+      this.setState({
+        stars: this.getStars(props.value),
+        value: props.value,
+        halfStar: {
+          at: Math.floor(props.value),
+          hidden: this.state.config.half && props.value % 1 < 0.5
+        }
       });
     }
   }, {

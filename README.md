@@ -50,3 +50,4 @@ You will need to have React in your project in order to use the component, I did
 ### Todo
 
 * Make better docs
+* Better state management

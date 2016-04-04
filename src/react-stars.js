@@ -33,6 +33,22 @@ class ReactStars extends Component {
 
     super(props)
 
+    // set defaults
+
+    props = Object.assign({}, props)
+
+    if(typeof props.edit === 'undefined') {
+      props.edit = true
+    } else {
+      props.edit = false
+    }
+
+    if(typeof props.half === 'undefined') {
+      props.half = true
+    } else {
+      props.half = false
+    }
+
     this.state = {
       value: props.value || 0,
       stars: [],
@@ -49,21 +65,9 @@ class ReactStars extends Component {
       // default color of inactive star
       color1: props.color1 || 'gray',
       // color of an active star
-      color2: props.color2 || '#ffd700'
-    }
-
-    // validation of props that are true / false
-
-    if(typeof props.edit === 'undefined') {
-      this.state.config.edit = true
-    } else {
-      this.state.config.edit = props.edit
-    }
-
-    if(typeof props.half === 'undefined') {
-      this.state.config.half = true
-    } else {
-      this.state.config.half = props.half
+      color2: props.color2 || '#ffd700',
+      half:   props.half,
+      edit:   props.edit
     }
 
   }
@@ -71,6 +75,17 @@ class ReactStars extends Component {
   componentDidMount() {
     this.setState({
       stars: this.getStars(this.state.value)
+    })
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      stars: this.getStars(props.value),
+      value: props.value,
+      halfStar: {
+        at: Math.floor(props.value),
+        hidden: this.state.config.half && props.value % 1 < 0.5
+      }
     })
   }
 
