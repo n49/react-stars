@@ -43,6 +43,27 @@ This a list of props that you can pass down to the component:
 | `half` | Should component use half stars, if not the decimal part will be dropped otherwise normal algebra rools will apply to round to half stars | `true` | boolean
 | `onChange(new_rating)` | Will be invoked any time the rating is changed | `null` | function |
 
+### Help improve the component
+###### Build on your machine:
+```bash
+# Clone the repo
+git clone git@github.com:n49/react-stars.git
+# Go into project folder
+cd react-stars
+# Install dependancies
+npm install
+```
+Build the component:
+```bash
+npm build
+```
+Run the examples:
+```bash
+webpack-dev-server . --hot --inline
+```
+
+Then in your browser go to: [http://127.0.0.1:8080/example](http://127.0.0.1:8080/example)
+
 ### Requirements
 
 You will need to have React in your project in order to use the component, I didn't bundle React in the build, because it seemed like a crazy idea.
