@@ -57,9 +57,14 @@ Build the component:
 ```bash
 npm build
 ```
-Run the examples:
+Run the examples (dev):
 ```bash
-webpack-dev-server . --hot --inline
+npm run dev-example
+```
+
+Build the examples (production):
+```bash
+npm run build-example
 ```
 
 Then in your browser go to: [http://127.0.0.1:8080/example](http://127.0.0.1:8080/example)
