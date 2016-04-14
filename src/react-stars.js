@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 
-const uniqueness = (Math.random() + '').replace('.', '')
-
 const parentStyles = {
   overflow: 'hidden',
   position: 'relative'
@@ -15,7 +13,7 @@ const defaultStyles = {
   float:    'left'
 }
 
-const getHalfStarStyles = (color) => {
+const getHalfStarStyles = (color, uniqueness) => {
   return `
     .react-stars-${uniqueness}:before {
       position: absolute;
@@ -52,6 +50,7 @@ class ReactStars extends Component {
     }
 
     this.state = {
+      uniqueness: (Math.random() + '').replace('.', ''),
       value: props.value || 0,
       stars: [],
       halfStar: {
@@ -69,7 +68,7 @@ class ReactStars extends Component {
       // color of an active star
       color2: props.color2 || '#ffd700',
       half:   props.half,
-      edit:   props.edit
+      edit:   props.edit,
     }
 
   }
@@ -176,15 +175,16 @@ class ReactStars extends Component {
   }
 
   renderHalfStarStyleElement() {
+    const { config, uniqueness } = this.state
     return (
       <style dangerouslySetInnerHTML={{
-        __html: getHalfStarStyles(this.state.config.color2)
+        __html: getHalfStarStyles(config.color2, uniqueness)
       }}></style>
     )
   }
 
   renderStars() {
-    const { halfStar, stars } = this.state
+    const { halfStar, stars, uniqueness } = this.state
     const { color1, color2, size, char, half } = this.state.config
     return stars.map((star, i) => {
       let starClass = ''
