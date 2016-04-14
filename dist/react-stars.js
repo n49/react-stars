@@ -31,8 +31,8 @@ var defaultStyles = {
   float: 'left'
 };
 
-var getHalfStarStyles = function getHalfStarStyles(color) {
-  return '\n    .react-stars-half-star:before {\n      position: absolute;\n      overflow: hidden;\n      display: block;\n      z-index: 1;\n      top: 0; left: 0;\n      width: 50%;\n      content: attr(data-forhalf);\n      color: ' + color + ';\n  }';
+var getHalfStarStyles = function getHalfStarStyles(color, uniqueness) {
+  return '\n    .react-stars-' + uniqueness + ':before {\n      position: absolute;\n      overflow: hidden;\n      display: block;\n      z-index: 1;\n      top: 0; left: 0;\n      width: 50%;\n      content: attr(data-forhalf);\n      color: ' + color + ';\n  }';
 };
 
 var ReactStars = function (_Component) {
@@ -60,6 +60,7 @@ var ReactStars = function (_Component) {
     }
 
     _this.state = {
+      uniqueness: (Math.random() + '').replace('.', ''),
       value: props.value || 0,
       stars: [],
       halfStar: {
@@ -207,8 +208,12 @@ var ReactStars = function (_Component) {
   }, {
     key: 'renderHalfStarStyleElement',
     value: function renderHalfStarStyleElement() {
+      var _state4 = this.state;
+      var config = _state4.config;
+      var uniqueness = _state4.uniqueness;
+
       return _react2.default.createElement('style', { dangerouslySetInnerHTML: {
-          __html: getHalfStarStyles(this.state.config.color2)
+          __html: getHalfStarStyles(config.color2, uniqueness)
         } });
     }
   }, {
@@ -216,9 +221,10 @@ var ReactStars = function (_Component) {
     value: function renderStars() {
       var _this2 = this;
 
-      var _state4 = this.state;
-      var halfStar = _state4.halfStar;
-      var stars = _state4.stars;
+      var _state5 = this.state;
+      var halfStar = _state5.halfStar;
+      var stars = _state5.stars;
+      var uniqueness = _state5.uniqueness;
       var _state$config = this.state.config;
       var color1 = _state$config.color1;
       var color2 = _state$config.color2;
@@ -229,7 +235,7 @@ var ReactStars = function (_Component) {
       return stars.map(function (star, i) {
         var starClass = '';
         if (half && !halfStar.hidden && halfStar.at === i) {
-          starClass = 'react-stars-half-star';
+          starClass = 'react-stars-' + uniqueness;
         }
         var style = Object.assign({}, defaultStyles, {
           color: star.active ? color2 : color1,
