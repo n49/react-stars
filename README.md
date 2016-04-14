@@ -61,7 +61,6 @@ Run the examples (dev):
 ```bash
 npm run dev-example
 ```
-
 Build the examples (production):
 ```bash
 npm run build-example
