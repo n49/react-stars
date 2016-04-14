@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+const uniqueness = (Math.random() + '').replace('.', '')
+
 const parentStyles = {
   overflow: 'hidden',
   position: 'relative'
@@ -15,7 +17,7 @@ const defaultStyles = {
 
 const getHalfStarStyles = (color) => {
   return `
-    .react-stars-half-star:before {
+    .react-stars-${uniqueness}:before {
       position: absolute;
       overflow: hidden;
       display: block;
@@ -187,7 +189,7 @@ class ReactStars extends Component {
     return stars.map((star, i) => {
       let starClass = ''
       if(half && !halfStar.hidden && halfStar.at === i) {
-        starClass = 'react-stars-half-star'
+        starClass = `react-stars-${uniqueness}`
       }
       const style = Object.assign({}, defaultStyles, {
         color:    star.active ? color2 : color1,
