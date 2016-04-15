@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 
 const parentStyles = {
   overflow: 'hidden',
@@ -222,6 +222,17 @@ class ReactStars extends Component {
     )
   }
 
+}
+
+ReactStars.propTypes = {
+  edit: PropTypes.bool,
+  half: PropTypes.bool,
+  value: PropTypes.number,
+  count: PropTypes.number,
+  char: PropTypes.string,
+  size: PropTypes.number,
+  color1: PropTypes.string,
+  color2: PropTypes.string
 }
 
 export default ReactStars
