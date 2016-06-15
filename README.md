@@ -6,7 +6,7 @@
 ### Get started quickly
 
 ###### Install react-stars package with NPM:
-`npm install react-stars --save`
+`npm install @jongleberry/react-stars --save`
 
 Then in your project include the component:
 
