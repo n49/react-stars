@@ -50,5 +50,8 @@
     "webpack": "^1.12.15",
     "webpack-dev-server": "^1.14.1"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "files": [
+    "dist"
+  ]
 }
