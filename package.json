@@ -16,7 +16,7 @@
     ]
   },
   "scripts": {
-    "build": "babel src --out-dir dist",
+    "build": "babel src -s inline --out-dir dist",
     "dev": "babel src --out-dir dist --watch",
     "build-example": "webpack -p --config=wepack.production.config.js",
     "dev-example": "webpack-dev-server . --hot --inline"
