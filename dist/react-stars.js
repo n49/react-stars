@@ -4,19 +4,35 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _assign = require('babel-runtime/core-js/object/assign');
+
+var _assign2 = _interopRequireDefault(_assign);
+
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var parentStyles = {
   overflow: 'hidden',
@@ -36,16 +52,17 @@ var getHalfStarStyles = function getHalfStarStyles(color, uniqueness) {
 };
 
 var ReactStars = function (_Component) {
-  _inherits(ReactStars, _Component);
+  (0, _inherits3.default)(ReactStars, _Component);
 
   function ReactStars(props) {
-    _classCallCheck(this, ReactStars);
+    (0, _classCallCheck3.default)(this, ReactStars);
+
 
     // set defaults
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ReactStars).call(this, props));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(ReactStars).call(this, props));
 
-    props = Object.assign({}, props);
+    props = (0, _assign2.default)({}, props);
 
     if (typeof props.edit === 'undefined') {
       props.edit = true;
@@ -84,7 +101,7 @@ var ReactStars = function (_Component) {
     return _this;
   }
 
-  _createClass(ReactStars, [{
+  (0, _createClass3.default)(ReactStars, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.setState({
@@ -237,7 +254,7 @@ var ReactStars = function (_Component) {
         if (half && !halfStar.hidden && halfStar.at === i) {
           starClass = 'react-stars-' + uniqueness;
         }
-        var style = Object.assign({}, defaultStyles, {
+        var style = (0, _assign2.default)({}, defaultStyles, {
           color: star.active ? color2 : color1,
           fontSize: size + 'px'
         });
@@ -268,8 +285,18 @@ var ReactStars = function (_Component) {
       );
     }
   }]);
-
   return ReactStars;
 }(_react.Component);
+
+ReactStars.propTypes = {
+  edit: _react.PropTypes.bool,
+  half: _react.PropTypes.bool,
+  value: _react.PropTypes.number,
+  count: _react.PropTypes.number,
+  char: _react.PropTypes.string,
+  size: _react.PropTypes.number,
+  color1: _react.PropTypes.string,
+  color2: _react.PropTypes.string
+};
 
 exports.default = ReactStars;
