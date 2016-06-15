@@ -35,9 +35,15 @@ render(
     <p><i>Star rating component for your React projects</i></p>
     Custom size, preset value, not editable
     <Stars {...firstExample} />
+    <Stars {...firstExample} />
+    <Stars {...firstExample} />
     Custom character, custom colors, 10 stars
     <Stars {...secondExample} />
+    <Stars {...secondExample} />
+    <Stars {...secondExample} />
     Editable, preset value, half stars off
+    <Stars {...thirdExample} />
+    <Stars {...thirdExample} />
     <Stars {...thirdExample} />
     <a href="https://github.com/n49/react-stars">Github</a>&nbsp;|&nbsp;
     <a href="https://www.npmjs.com/package/react-stars">NPM package</a>
