@@ -16,6 +16,7 @@
     ]
   },
   "scripts": {
+    "prepublish": "npm run build",
     "build": "babel src -s inline --out-dir dist",
     "dev": "babel src --out-dir dist --watch",
     "build-example": "webpack -p --config=wepack.production.config.js",
