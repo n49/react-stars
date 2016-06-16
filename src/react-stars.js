@@ -2,7 +2,9 @@ import React, { Component, PropTypes } from 'react'
 
 const parentStyles = {
   overflow: 'hidden',
-  position: 'relative'
+  position: 'relative',
+  display: 'inline-block',
+  verticalAlign: 'middle',
 }
 
 const defaultStyles = {
@@ -184,6 +186,7 @@ class ReactStars extends Component {
   }
 
   renderStars() {
+    const { props } = this
     const { halfStar, stars, uniqueness } = this.state
     const { color1, color2, size, char, half } = this.state.config
     return stars.map((star, i) => {
@@ -213,8 +216,10 @@ class ReactStars extends Component {
   }
 
   render() {
+    const { className } = this.props
+
     return (
-      <div style={parentStyles}>
+      <div className={className} style={parentStyles}>
         {this.state.config.half ?
         this.renderHalfStarStyleElement() : ''}
         {this.renderStars()}
