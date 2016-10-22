@@ -43,7 +43,7 @@ var ReactStars = function (_Component) {
 
     // set defaults
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ReactStars).call(this, props));
+    var _this = _possibleConstructorReturn(this, (ReactStars.__proto__ || Object.getPrototypeOf(ReactStars)).call(this, props));
 
     props = Object.assign({}, props);
 
@@ -260,9 +260,12 @@ var ReactStars = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var className = this.props.className;
+
+
       return _react2.default.createElement(
         'div',
-        { style: parentStyles },
+        { className: className, style: parentStyles },
         this.state.config.half ? this.renderHalfStarStyleElement() : '',
         this.renderStars()
       );
@@ -271,5 +274,17 @@ var ReactStars = function (_Component) {
 
   return ReactStars;
 }(_react.Component);
+
+ReactStars.propTypes = {
+  className: _react.PropTypes.string,
+  edit: _react.PropTypes.bool,
+  half: _react.PropTypes.bool,
+  value: _react.PropTypes.number,
+  count: _react.PropTypes.number,
+  char: _react.PropTypes.string,
+  size: _react.PropTypes.number,
+  color1: _react.PropTypes.string,
+  color2: _react.PropTypes.string
+};
 
 exports.default = ReactStars;
