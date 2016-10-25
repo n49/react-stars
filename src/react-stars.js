@@ -39,14 +39,10 @@ class ReactStars extends Component {
 
     if(typeof props.edit === 'undefined') {
       props.edit = true
-    } else {
-      props.edit = false
     }
 
     if(typeof props.half === 'undefined') {
       props.half = true
-    } else {
-      props.half = false
     }
 
     this.state = {
