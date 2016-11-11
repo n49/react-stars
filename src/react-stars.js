@@ -213,8 +213,13 @@ class ReactStars extends Component {
   }
 
   render() {
+
+    const {
+      className
+    } = this.props
+
     return (
-      <div style={parentStyles}>
+      <div className={className} style={parentStyles}>
         {this.state.config.half ?
         this.renderHalfStarStyleElement() : ''}
         {this.renderStars()}
@@ -225,6 +230,7 @@ class ReactStars extends Component {
 }
 
 ReactStars.propTypes = {
+  className: PropTypes.string,
   edit: PropTypes.bool,
   half: PropTypes.bool,
   value: PropTypes.number,

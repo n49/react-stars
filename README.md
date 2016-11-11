@@ -34,6 +34,7 @@ This a list of props that you can pass down to the component:
 
 | Property | Description | Default value | type |
 | -------- | ----------- | ------------- | ---- |
+| `className`  | Name of parent class | `null` | string |
 | `count`  | How many total stars you want  | 5 | number |
 | `char` | Which character you want to use as a star | ★ | string |
 | `color1` | Color of inactive star (this supports any CSS valid value) | `gray` | string |
