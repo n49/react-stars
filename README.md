@@ -1,5 +1,5 @@
-# react-stars :star:
-###### A simple star rating component for your React projects (now with half stars and custom characters)
+# react-stars-ie :star:
+###### A simple star rating component for your React projects (now with half stars and custom characters). Now supporting IE.
 
 ![react-stars](http://i.imgur.com/VDbzbqF.gif)
 
