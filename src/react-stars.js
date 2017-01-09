@@ -184,8 +184,8 @@ class ReactStars extends Component {
   }
 
   renderStars() {
-    const { halfStar, stars, uniqueness } = this.state
-    const { color1, color2, size, char, half } = this.state.config
+    const { halfStar, stars, uniqueness, config } = this.state
+    const { color1, color2, size, char, half, edit } = config
     return stars.map((star, i) => {
       let starClass = ''
       if(half && !halfStar.hidden && halfStar.at === i) {
@@ -193,6 +193,7 @@ class ReactStars extends Component {
       }
       const style = Object.assign({}, defaultStyles, {
         color:    star.active ? color2 : color1,
+        cursor: edit ? 'pointer' : 'default',
         fontSize: `${size}px`
       })
       return (
