@@ -10,7 +10,6 @@ const parentStyles = {
 const defaultStyles = {
   position: 'relative',
   overflow: 'hidden',
-  cursor:   'pointer',
   display:  'block',
   float:    'left'
 }
@@ -187,7 +186,7 @@ class ReactStars extends Component {
 
   renderStars() {
     const { props } = this
-    const { halfStar, stars, uniqueness } = this.state
+    const { halfStar, stars, uniqueness, edit } = this.state
     const { color1, color2, size, char, half } = this.state.config
     return stars.map((star, i) => {
       let starClass = ''
@@ -196,8 +195,11 @@ class ReactStars extends Component {
       }
       const style = Object.assign({}, defaultStyles, {
         color:    star.active ? color2 : color1,
-        fontSize: `${size}px`
+        fontSize: `${size}px`,
       })
+
+      if (edit) style.cursor = 'pointer'
+
       return (
         <span
           className={starClass}
