@@ -26,7 +26,7 @@ var parentStyles = {
 var defaultStyles = {
   position: 'relative',
   overflow: 'hidden',
-  cursor: 'pointer',
+  // cursor:   'pointer',
   display: 'block',
   float: 'left'
 };
@@ -136,9 +136,9 @@ var ReactStars = function (_Component) {
   }, {
     key: 'mouseOver',
     value: function mouseOver(event) {
-      var _state = this.state;
-      var config = _state.config;
-      var halfStar = _state.halfStar;
+      var _state = this.state,
+          config = _state.config,
+          halfStar = _state.halfStar;
 
       if (!config.edit) return;
       var index = Number(event.target.getAttribute('data-index'));
@@ -166,10 +166,10 @@ var ReactStars = function (_Component) {
   }, {
     key: 'mouseLeave',
     value: function mouseLeave() {
-      var _state2 = this.state;
-      var value = _state2.value;
-      var halfStar = _state2.halfStar;
-      var config = _state2.config;
+      var _state2 = this.state,
+          value = _state2.value,
+          halfStar = _state2.halfStar,
+          config = _state2.config;
 
       if (!config.edit) return;
       if (config.half) {
@@ -183,9 +183,9 @@ var ReactStars = function (_Component) {
   }, {
     key: 'clicked',
     value: function clicked(event) {
-      var _state3 = this.state;
-      var config = _state3.config;
-      var halfStar = _state3.halfStar;
+      var _state3 = this.state,
+          config = _state3.config,
+          halfStar = _state3.halfStar;
 
       if (!config.edit) return;
       var index = Number(event.target.getAttribute('data-index'));
@@ -208,9 +208,9 @@ var ReactStars = function (_Component) {
   }, {
     key: 'renderHalfStarStyleElement',
     value: function renderHalfStarStyleElement() {
-      var _state4 = this.state;
-      var config = _state4.config;
-      var uniqueness = _state4.uniqueness;
+      var _state4 = this.state,
+          config = _state4.config,
+          uniqueness = _state4.uniqueness;
 
       return _react2.default.createElement('style', { dangerouslySetInnerHTML: {
           __html: getHalfStarStyles(config.color2, uniqueness)
@@ -221,16 +221,17 @@ var ReactStars = function (_Component) {
     value: function renderStars() {
       var _this2 = this;
 
-      var _state5 = this.state;
-      var halfStar = _state5.halfStar;
-      var stars = _state5.stars;
-      var uniqueness = _state5.uniqueness;
-      var _state$config = this.state.config;
-      var color1 = _state$config.color1;
-      var color2 = _state$config.color2;
-      var size = _state$config.size;
-      var char = _state$config.char;
-      var half = _state$config.half;
+      var _state5 = this.state,
+          halfStar = _state5.halfStar,
+          stars = _state5.stars,
+          uniqueness = _state5.uniqueness;
+      var _state$config = this.state.config,
+          color1 = _state$config.color1,
+          color2 = _state$config.color2,
+          size = _state$config.size,
+          char = _state$config.char,
+          half = _state$config.half,
+          edit = _state$config.edit;
 
       return stars.map(function (star, i) {
         var starClass = '';
@@ -239,7 +240,8 @@ var ReactStars = function (_Component) {
         }
         var style = Object.assign({}, defaultStyles, {
           color: star.active ? color2 : color1,
-          fontSize: size + 'px'
+          fontSize: size + 'px',
+          cursor: edit ? 'pointer' : 'auto'
         });
         return _react2.default.createElement(
           'span',
