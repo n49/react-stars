@@ -36,8 +36,10 @@ class ReactStars extends Component {
 
     // set defaults
 
+    // TODO: remove this shit
     props = Object.assign({}, props)
 
+    // TODO: remove this shit
     if (typeof props.edit !== 'boolean') {
       if(typeof props.edit === 'undefined') {
         props.edit = true
@@ -46,6 +48,7 @@ class ReactStars extends Component {
       }
     }
 
+    // TODO: remove this shit
     if (typeof props.half !== 'boolean') {
       if(typeof props.half === 'undefined') {
         props.half = true
@@ -190,8 +193,8 @@ class ReactStars extends Component {
 
   renderStars() {
     const { props } = this
-    const { halfStar, stars, uniqueness, edit } = this.state
-    const { color1, color2, size, char, half } = this.state.config
+    const { halfStar, stars, uniqueness } = this.state
+    const { color1, color2, size, char, half, edit } = this.state.config
     return stars.map((star, i) => {
       let starClass = ''
       if(half && !halfStar.hidden && halfStar.at === i) {

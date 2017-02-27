@@ -24,6 +24,7 @@ const thirdExample = {
   count: 7,
   half: false,
   value: 4,
+  edit: true,
   onChange: newValue => {
     console.log(`Example 3: new value is ${newValue}`)
   }
