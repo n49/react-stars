@@ -153,7 +153,7 @@ var ReactStars = function (_Component) {
       this.setState({
         stars: this.getStars(index)
       });
-      this.props.onHover(value);
+      this.props.onHover(index);
     }
   }, {
     key: 'moreThanHalf',
