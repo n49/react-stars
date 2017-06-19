@@ -26,6 +26,9 @@ const thirdExample = {
   value: 4,
   onChange: newValue => {
     console.log(`Example 3: new value is ${newValue}`)
+  },
+  onHover: value => {
+  	console.log(value);
   }
 }
 
