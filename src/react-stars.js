@@ -132,6 +132,7 @@ class ReactStars extends Component {
     this.setState({
       stars: this.getStars(index)
     })
+	this.props.onHover(value)
   }
 
   moreThanHalf(event, size) {
