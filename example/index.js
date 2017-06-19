@@ -27,7 +27,7 @@ const thirdExample = {
   onChange: newValue => {
     console.log(`Example 3: new value is ${newValue}`)
   },
-  onHover: value => {
+  onMouseOver: value => {
   	console.log(value);
   }
 }

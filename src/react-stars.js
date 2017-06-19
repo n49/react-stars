@@ -132,7 +132,7 @@ class ReactStars extends Component {
     this.setState({
       stars: this.getStars(index)
     })
-	this.props.onHover(index)
+	this.props.onMouseOver(index)
   }
 
   moreThanHalf(event, size) {
@@ -152,6 +152,7 @@ class ReactStars extends Component {
     this.setState({
       stars: this.getStars()
     })
+	this.props.onMouseLeave()
   }
 
   clicked(event) {

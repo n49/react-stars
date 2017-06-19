@@ -153,7 +153,7 @@ var ReactStars = function (_Component) {
       this.setState({
         stars: this.getStars(index)
       });
-      this.props.onHover(index);
+      this.props.onMouseOver(index);
     }
   }, {
     key: 'moreThanHalf',
@@ -180,6 +180,7 @@ var ReactStars = function (_Component) {
       this.setState({
         stars: this.getStars()
       });
+      this.props.onMouseLeave();
     }
   }, {
     key: 'clicked',
