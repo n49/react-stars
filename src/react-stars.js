@@ -135,6 +135,23 @@ class ReactStars extends Component {
 	this.props.onMouseOver(index)
   }
 
+	mouseMove(event) {
+		let { config, halfStar } = this.state
+		if(!config.edit) return;
+		let index = Number(event.target.getAttribute('data-index'))
+		if(config.half) {
+			const isAtHalf = this.moreThanHalf(event, config.size)
+			halfStar.hidden = isAtHalf
+			if(isAtHalf) index = index + 1
+			halfStar.at = index
+		} else {
+			index = index + 1
+		}
+		this.setState({
+			stars: this.getStars(index)
+		})
+	}
+
   moreThanHalf(event, size) {
     let { target } = event
     var mouseAt = event.clientX - target.getBoundingClientRect().left
@@ -205,7 +222,7 @@ class ReactStars extends Component {
           data-index={i}
           data-forhalf={char}
           onMouseOver={this.mouseOver.bind(this)}
-          onMouseMove={this.mouseOver.bind(this)}
+          onMouseMove={this.mouseMove.bind(this)}
           onMouseLeave={this.mouseLeave.bind(this)}
           onClick={this.clicked.bind(this)}>
           {char}

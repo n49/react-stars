@@ -156,6 +156,27 @@ var ReactStars = function (_Component) {
       this.props.onMouseOver(index);
     }
   }, {
+    key: 'mouseMove',
+    value: function mouseMove(event) {
+      var _state2 = this.state,
+          config = _state2.config,
+          halfStar = _state2.halfStar;
+
+      if (!config.edit) return;
+      var index = Number(event.target.getAttribute('data-index'));
+      if (config.half) {
+        var isAtHalf = this.moreThanHalf(event, config.size);
+        halfStar.hidden = isAtHalf;
+        if (isAtHalf) index = index + 1;
+        halfStar.at = index;
+      } else {
+        index = index + 1;
+      }
+      this.setState({
+        stars: this.getStars(index)
+      });
+    }
+  }, {
     key: 'moreThanHalf',
     value: function moreThanHalf(event, size) {
       var target = event.target;
@@ -167,10 +188,10 @@ var ReactStars = function (_Component) {
   }, {
     key: 'mouseLeave',
     value: function mouseLeave() {
-      var _state2 = this.state,
-          value = _state2.value,
-          halfStar = _state2.halfStar,
-          config = _state2.config;
+      var _state3 = this.state,
+          value = _state3.value,
+          halfStar = _state3.halfStar,
+          config = _state3.config;
 
       if (!config.edit) return;
       if (config.half) {
@@ -185,9 +206,9 @@ var ReactStars = function (_Component) {
   }, {
     key: 'clicked',
     value: function clicked(event) {
-      var _state3 = this.state,
-          config = _state3.config,
-          halfStar = _state3.halfStar;
+      var _state4 = this.state,
+          config = _state4.config,
+          halfStar = _state4.halfStar;
 
       if (!config.edit) return;
       var index = Number(event.target.getAttribute('data-index'));
@@ -210,9 +231,9 @@ var ReactStars = function (_Component) {
   }, {
     key: 'renderHalfStarStyleElement',
     value: function renderHalfStarStyleElement() {
-      var _state4 = this.state,
-          config = _state4.config,
-          uniqueness = _state4.uniqueness;
+      var _state5 = this.state,
+          config = _state5.config,
+          uniqueness = _state5.uniqueness;
 
       return _react2.default.createElement('style', { dangerouslySetInnerHTML: {
           __html: getHalfStarStyles(config.color2, uniqueness)
@@ -223,10 +244,10 @@ var ReactStars = function (_Component) {
     value: function renderStars() {
       var _this2 = this;
 
-      var _state5 = this.state,
-          halfStar = _state5.halfStar,
-          stars = _state5.stars,
-          uniqueness = _state5.uniqueness;
+      var _state6 = this.state,
+          halfStar = _state6.halfStar,
+          stars = _state6.stars,
+          uniqueness = _state6.uniqueness;
       var _state$config = this.state.config,
           color1 = _state$config.color1,
           color2 = _state$config.color2,
@@ -252,7 +273,7 @@ var ReactStars = function (_Component) {
             'data-index': i,
             'data-forhalf': char,
             onMouseOver: _this2.mouseOver.bind(_this2),
-            onMouseMove: _this2.mouseOver.bind(_this2),
+            onMouseMove: _this2.mouseMove.bind(_this2),
             onMouseLeave: _this2.mouseLeave.bind(_this2),
             onClick: _this2.clicked.bind(_this2) },
           char
