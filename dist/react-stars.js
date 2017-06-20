@@ -23,7 +23,15 @@ var parentStyles = {
 	position: 'relative'
 };
 
-var defaultStyles = {
+var editStyles = {
+	position: 'relative',
+	overflow: 'hidden',
+	cursor: 'pointer',
+	display: 'block',
+	float: 'left'
+};
+
+var readStyles = {
 	position: 'relative',
 	overflow: 'hidden',
 	cursor: 'pointer',
@@ -253,14 +261,16 @@ var ReactStars = function (_Component) {
 			    color2 = _state$config.color2,
 			    size = _state$config.size,
 			    char = _state$config.char,
-			    half = _state$config.half;
+			    half = _state$config.half,
+			    edit = _state$config.edit;
 
 			return stars.map(function (star, i) {
 				var starClass = '';
 				if (half && !halfStar.hidden && halfStar.at === i) {
 					starClass = 'react-stars-' + uniqueness;
 				}
-				var style = Object.assign({}, defaultStyles, {
+				var styles = edit ? editStyles : readStyles;
+				var style = Object.assign({}, styles, {
 					color: star.active ? color2 : color1,
 					fontSize: size + 'px'
 				});

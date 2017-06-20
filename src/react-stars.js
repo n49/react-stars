@@ -5,7 +5,15 @@ const parentStyles = {
 	position: 'relative'
 }
 
-const defaultStyles = {
+const editStyles = {
+	position: 'relative',
+	overflow: 'hidden',
+	cursor: 'pointer',
+	display: 'block',
+	float: 'left'
+}
+
+const readStyles = {
 	position: 'relative',
 	overflow: 'hidden',
 	cursor: 'pointer',
@@ -204,13 +212,14 @@ class ReactStars extends Component {
 
 	renderStars() {
 		const {halfStar, stars, uniqueness} = this.state
-		const {color1, color2, size, char, half} = this.state.config
+		const {color1, color2, size, char, half, edit} = this.state.config
 		return stars.map((star, i) => {
 			let starClass = ''
 			if (half && !halfStar.hidden && halfStar.at === i) {
 				starClass = `react-stars-${uniqueness}`
 			}
-			const style = Object.assign({}, defaultStyles, {
+			let styles = edit ? editStyles : readStyles;
+			const style = Object.assign({}, styles, {
 				color: star.active ? color2 : color1,
 				fontSize: `${size}px`
 			})
