@@ -16,7 +16,7 @@ const editStyles = {
 const readStyles = {
 	position: 'relative',
 	overflow: 'hidden',
-	cursor: 'pointer',
+	cursor: 'default',
 	display: 'block',
 	float: 'left'
 }

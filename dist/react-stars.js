@@ -34,7 +34,7 @@ var editStyles = {
 var readStyles = {
 	position: 'relative',
 	overflow: 'hidden',
-	cursor: 'pointer',
+	cursor: 'default',
 	display: 'block',
 	float: 'left'
 };
