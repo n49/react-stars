@@ -24,6 +24,7 @@ const getHalfStarStyles = (color, uniqueness) => `
       content: attr(data-forhalf);
       color: ${color};
   }`;
+<<<<<<< HEAD
 
 
 const isDecimal = value => value % 1 !== 0;
@@ -35,6 +36,19 @@ const moreThanHalf = (event, size) => {
   return mouseAt > size / 2;
 };
 
+=======
+
+
+const isDecimal = value => value % 1 !== 0;
+
+const moreThanHalf = (event, size) => {
+  const { target } = event;
+  let mouseAt = event.clientX - target.getBoundingClientRect().left;
+  mouseAt = Math.round(Math.abs(mouseAt));
+  return mouseAt > size / 2;
+};
+
+>>>>>>> Update the library.
 class ReactStars extends Component {
   static displayName = 'ReactStars';
   static defaultProps = {
