@@ -63,7 +63,7 @@ class ReactStars extends Component {
       halfStar: {
         at: Math.floor(value),
         hidden: half && value % 1 < 0.5
-      },
+      }
     }
   }
 
@@ -75,7 +75,7 @@ class ReactStars extends Component {
       halfStar: {
         at: Math.floor(nextProps.value),
         hidden: half && nextProps.value % 1 < 0.5
-      },
+      }
     })
   }
 
