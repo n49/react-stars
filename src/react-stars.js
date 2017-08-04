@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 const parentStyles = {
   overflow: 'hidden',
   position: 'relative'
-};
+}
 
 const defaultStyles = {
   position: 'relative',
   overflow: 'hidden',
   display: 'block',
   float: 'left'
-};
+}
 
 const getHalfStarStyles = (color, uniqueness) => `
     .react-stars-${uniqueness}:before {
@@ -19,38 +19,34 @@ const getHalfStarStyles = (color, uniqueness) => `
       overflow: hidden;
       display: block;
       z-index: 1;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       width: 50%;
       content: attr(data-forhalf);
       color: ${color};
-  }`;
-<<<<<<< HEAD
+  }`
 
 
-const isDecimal = value => value % 1 !== 0;
+const isDecimal = value => value % 1 !== 0
+
+const moreThanHalf = (event, size) => {
+  const { target } = event
+  let mouseAt = event.clientX - target.getBoundingClientRect().left
+  mouseAt = Math.round(Math.abs(mouseAt))
+  return mouseAt > size / 2
+}
+
+const isDecimal = value => value % 1 !== 0
 
 const moreThanHalf = (event, size) => {
   const { target } = event;
   let mouseAt = event.clientX - target.getBoundingClientRect().left;
   mouseAt = Math.round(Math.abs(mouseAt));
   return mouseAt > size / 2;
-};
+}
 
-=======
-
-
-const isDecimal = value => value % 1 !== 0;
-
-const moreThanHalf = (event, size) => {
-  const { target } = event;
-  let mouseAt = event.clientX - target.getBoundingClientRect().left;
-  mouseAt = Math.round(Math.abs(mouseAt));
-  return mouseAt > size / 2;
-};
-
->>>>>>> Update the library.
 class ReactStars extends Component {
-  static displayName = 'ReactStars';
+  static displayName = 'ReactStars'
   static defaultProps = {
     char: '★',
     className: '',
@@ -62,7 +58,7 @@ class ReactStars extends Component {
     size: 15,
     value: 0,
     onChange: () => {}
-  };
+  }
   static propTypes = {
     char: PropTypes.string,
     className: PropTypes.string,
@@ -74,12 +70,12 @@ class ReactStars extends Component {
     onChange: PropTypes.func,
     size: PropTypes.number,
     value: PropTypes.number
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
 
-    const { value, half } = this.props;
+    const { value, half } = this.props
 
     this.state = {
       uniqueness: (`${Math.random()}`).replace('.', ''),
@@ -89,11 +85,11 @@ class ReactStars extends Component {
         at: Math.floor(value),
         hidden: half && value % 1 < 0.5
       },
-    };
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { half } = this.props;
+    const { half } = this.props
     this.setState({
       stars: this.getStars(nextProps.value),
       value: nextProps.value,
@@ -101,96 +97,96 @@ class ReactStars extends Component {
         at: Math.floor(nextProps.value),
         hidden: half && nextProps.value % 1 < 0.5
       },
-    });
+    })
   }
 
   getRate() {
-    const { value } = this.state;
-    return this.props.half ? Math.floor(value) : Math.round(value);
+    const { value } = this.state
+    return this.props.half ? Math.floor(value) : Math.round(value)
   }
 
   getStars(newCount) {
-    const { count } = this.props;
-    const activeCount = (typeof newCount === 'undefined') ? this.getRate() : newCount;
-    const stars = [];
-    for (let i = 0; i < count; i += 1) {
+    const { count } = this.props
+    const activeCount = (typeof newCount === 'undefined') ? this.getRate() : newCount
+    const stars = []
+    for (let i = 0 i < count i += 1) {
       stars.push({
         active: i <= activeCount - 1
-      });
+      })
     }
-    return stars;
+    return stars
   }
 
   mouseOver = (event) => {
-    const { halfStar } = this.state;
-    const { half, size } = this.props;
-    let index = Number(event.target.getAttribute('data-index'));
+    const { halfStar } = this.state
+    const { half, size } = this.props
+    let index = Number(event.target.getAttribute('data-index'))
     if (half) {
-      const isAtHalf = moreThanHalf(event, size);
-      halfStar.hidden = isAtHalf;
-      if (isAtHalf) index += 1;
-      halfStar.at = index;
+      const isAtHalf = moreThanHalf(event, size)
+      halfStar.hidden = isAtHalf
+      if (isAtHalf) index += 1
+      halfStar.at = index
     } else {
-      index += 1;
+      index += 1
     }
     this.setState({
       stars: this.getStars(index)
-    });
+    })
   }
 
   mouseLeave = () => {
-    const { value, halfStar } = this.state;
-    const { half } = this.props;
+    const { value, halfStar } = this.state
+    const { half } = this.props
     if (half) {
-      halfStar.hidden = !isDecimal(value);
-      halfStar.at = Math.floor(this.state.value);
+      halfStar.hidden = !isDecimal(value)
+      halfStar.at = Math.floor(this.state.value)
     }
     this.setState({
       stars: this.getStars()
-    });
+    })
   }
 
   clicked = (event) => {
-    const { halfStar } = this.state;
-    const { half, size } = this.props;
-    let index = Number(event.target.getAttribute('data-index'));
-    let value;
+    const { halfStar } = this.state
+    const { half, size } = this.props
+    let index = Number(event.target.getAttribute('data-index'))
+    let value
     if (half) {
-      const isAtHalf = this.moreThanHalf(event, size);
-      halfStar.hidden = isAtHalf;
-      if (isAtHalf) index += 1;
-      value = isAtHalf ? index : index + 0.5;
-      halfStar.at = index;
+      const isAtHalf = this.moreThanHalf(event, size)
+      halfStar.hidden = isAtHalf
+      if (isAtHalf) index += 1
+      value = isAtHalf ? index : index + 0.5
+      halfStar.at = index
     } else {
-      index += 1;
-      value = index;
+      index += 1
+      value = index
     }
     this.setState({
       value,
       stars: this.getStars(index)
-    });
-    this.props.onChange(value);
+    })
+    this.props.onChange(value)
   }
 
   renderHalfStarStyleElement() {
-    const { uniqueness } = this.state;
-    const { color2 } = this.props;
+    const { uniqueness } = this.state
+    const { color2 } = this.props
     return (
       <style dangerouslySetInnerHTML={{ __html: getHalfStarStyles(color2, uniqueness) }} />
-    );
+    )
   }
 
   renderStars = () => {
-    const { halfStar, stars, uniqueness } = this.state;
-    const { color1, color2, edit, size, char, half } = this.props;
-    const onClick = edit ? this.clicked : () => {};
-    const onMouseOver = edit ? this.mouseOver : () => {};
-    const onMouseLeave = edit ? this.mouseLeave : () => {};
+    const { halfStar, stars, uniqueness } = this.state
+    const { color1, color2, edit, size, char, half } = this.props
+    const onClick = edit ? this.clicked : () => {}
+    const onMouseOver = edit ? this.mouseOver : () => {}
+    const onMouseLeave = edit ? this.mouseLeave : () => {}
 
     return stars.map((star, i) => {
-      let starClass = '';
+      let starClass = ''
       if (half && !halfStar.hidden && halfStar.at === i) {
-        starClass = `react-stars-${uniqueness}`;
+        starClass = `react-stars-${uniqueness}`
       }
       const style = Object.assign({}, defaultStyles, {
         color: star.active ? color2 : color1,
@@ -212,21 +208,20 @@ class ReactStars extends Component {
         >
           {char}
         </span>
-      );
-    });
+      )
+    })
   }
 
   render() {
-    const { className, half } = this.props;
+    const { className, half } = this.props
 
     return (
       <div className={className} style={parentStyles}>
         {half && this.renderHalfStarStyleElement()}
         {this.renderStars()}
       </div>
-    );
+    )
   }
 }
 
-
-export default ReactStars;
+export default ReactStars
