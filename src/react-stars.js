@@ -46,36 +46,15 @@ const moreThanHalf = (event, size) => {
 }
 
 class ReactStars extends Component {
-  static displayName = 'ReactStars'
-  static defaultProps = {
-    char: '★',
-    className: '',
-    color1: 'gray',
-    color2: '#ffd700',
-    count: 5,
-    edit: true,
-    half: true,
-    size: 15,
-    value: 0,
-    onChange: () => {}
-  }
-  static propTypes = {
-    char: PropTypes.string,
-    className: PropTypes.string,
-    color1: PropTypes.string,
-    color2: PropTypes.string,
-    count: PropTypes.number,
-    edit: PropTypes.bool,
-    half: PropTypes.bool,
-    onChange: PropTypes.func,
-    size: PropTypes.number,
-    value: PropTypes.number
-  }
-
   constructor(props) {
     super(props)
 
     const { value, half } = this.props
+
+    this.mouseLeave = this.mouseLeave.bind(this)
+    this.mouseOver = this.mouseOver.bind(this)
+    this.clicked = this.clicked.bind(this)
+    this.renderStars = this.renderStars.bind(this)
 
     this.state = {
       uniqueness: (`${Math.random()}`).replace('.', ''),
@@ -109,7 +88,7 @@ class ReactStars extends Component {
     const { count } = this.props
     const activeCount = (typeof newCount === 'undefined') ? this.getRate() : newCount
     const stars = []
-    for (let i = 0 i < count i += 1) {
+    for (let i = 0; i < count; i += 1) {
       stars.push({
         active: i <= activeCount - 1
       })
@@ -117,7 +96,7 @@ class ReactStars extends Component {
     return stars
   }
 
-  mouseOver = (event) => {
+  mouseOver(event) {
     const { halfStar } = this.state
     const { half, size } = this.props
     let index = Number(event.target.getAttribute('data-index'))
@@ -134,7 +113,7 @@ class ReactStars extends Component {
     })
   }
 
-  mouseLeave = () => {
+  mouseLeave() {
     const { value, halfStar } = this.state
     const { half } = this.props
     if (half) {
@@ -146,7 +125,7 @@ class ReactStars extends Component {
     })
   }
 
-  clicked = (event) => {
+  clicked(event) {
     const { halfStar } = this.state
     const { half, size } = this.props
     let index = Number(event.target.getAttribute('data-index'))
@@ -176,7 +155,7 @@ class ReactStars extends Component {
     )
   }
 
-  renderStars = () => {
+  renderStars() {
     const { halfStar, stars, uniqueness } = this.state
     const { color1, color2, edit, size, char, half } = this.props
     const onClick = edit ? this.clicked : () => {}
@@ -222,6 +201,31 @@ class ReactStars extends Component {
       </div>
     )
   }
+}
+ReactStars.displayName = 'ReactStars'
+ReactStars.defaultProps = {
+  char: '★',
+  className: '',
+  color1: 'gray',
+  color2: '#ffd700',
+  count: 5,
+  edit: true,
+  half: true,
+  size: 15,
+  value: 0,
+  onChange: () => {}
+}
+ReactStars.propTypes = {
+  char: PropTypes.string,
+  className: PropTypes.string,
+  color1: PropTypes.string,
+  color2: PropTypes.string,
+  count: PropTypes.number,
+  edit: PropTypes.bool,
+  half: PropTypes.bool,
+  onChange: PropTypes.func,
+  size: PropTypes.number,
+  value: PropTypes.number
 }
 
 export default ReactStars
