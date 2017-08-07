@@ -226,13 +226,14 @@ var ReactStars = function (_Component) {
       var _state5 = this.state,
           halfStar = _state5.halfStar,
           stars = _state5.stars,
-          uniqueness = _state5.uniqueness;
-      var _state$config = this.state.config,
-          color1 = _state$config.color1,
-          color2 = _state$config.color2,
-          size = _state$config.size,
-          char = _state$config.char,
-          half = _state$config.half;
+          uniqueness = _state5.uniqueness,
+          config = _state5.config;
+      var color1 = config.color1,
+          color2 = config.color2,
+          size = config.size,
+          char = config.char,
+          half = config.half,
+          edit = config.edit;
 
       return stars.map(function (star, i) {
         var starClass = '';
@@ -241,6 +242,7 @@ var ReactStars = function (_Component) {
         }
         var style = _extends({}, defaultStyles, {
           color: star.active ? color2 : color1,
+          cursor: edit ? 'pointer' : 'default',
           fontSize: size + 'px'
         });
         return _react2.default.createElement(
