@@ -165,7 +165,7 @@ var ReactStars = function (_Component) {
       var index = Number(event.target.getAttribute('data-index'));
       var value = void 0;
       if (half) {
-        var isAtHalf = this.moreThanHalf(event, size);
+        var isAtHalf = moreThanHalf(event, size);
         halfStar.hidden = isAtHalf;
         if (isAtHalf) index += 1;
         value = isAtHalf ? index : index + 0.5;

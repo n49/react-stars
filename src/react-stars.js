@@ -122,7 +122,7 @@ class ReactStars extends Component {
     let index = Number(event.target.getAttribute('data-index'))
     let value
     if (half) {
-      const isAtHalf = this.moreThanHalf(event, size)
+      const isAtHalf = moreThanHalf(event, size)
       halfStar.hidden = isAtHalf
       if (isAtHalf) index += 1
       value = isAtHalf ? index : index + 0.5
