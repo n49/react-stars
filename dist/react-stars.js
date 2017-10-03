@@ -12,6 +12,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -280,15 +284,15 @@ var ReactStars = function (_Component) {
 }(_react.Component);
 
 ReactStars.propTypes = {
-  className: _react.PropTypes.string,
-  edit: _react.PropTypes.bool,
-  half: _react.PropTypes.bool,
-  value: _react.PropTypes.number,
-  count: _react.PropTypes.number,
-  char: _react.PropTypes.string,
-  size: _react.PropTypes.number,
-  color1: _react.PropTypes.string,
-  color2: _react.PropTypes.string
+  className: _propTypes2.default.string,
+  edit: _propTypes2.default.bool,
+  half: _propTypes2.default.bool,
+  value: _propTypes2.default.number,
+  count: _propTypes2.default.number,
+  char: _propTypes2.default.string,
+  size: _propTypes2.default.number,
+  color1: _propTypes2.default.string,
+  color2: _propTypes2.default.string
 };
 
 exports.default = ReactStars;
