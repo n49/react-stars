@@ -38,17 +38,11 @@ class ReactStars extends Component {
 
     props = Object.assign({}, props)
 
-    if(typeof props.edit === 'undefined') {
+    if (typeof props.edit === 'undefined')
       props.edit = true
-    } else {
-      props.edit = false
-    }
 
-    if(typeof props.half === 'undefined') {
+    if (typeof props.half === 'undefined')
       props.half = true
-    } else {
-      props.half = false
-    }
 
     this.state = {
       uniqueness: (Math.random() + '').replace('.', ''),

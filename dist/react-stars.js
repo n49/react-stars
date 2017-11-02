@@ -53,17 +53,9 @@ var ReactStars = function (_Component) {
 
     props = _extends({}, props);
 
-    if (typeof props.edit === 'undefined') {
-      props.edit = true;
-    } else {
-      props.edit = false;
-    }
+    if (typeof props.edit === 'undefined') props.edit = true;
 
-    if (typeof props.half === 'undefined') {
-      props.half = true;
-    } else {
-      props.half = false;
-    }
+    if (typeof props.half === 'undefined') props.half = true;
 
     _this.state = {
       uniqueness: (Math.random() + '').replace('.', ''),
