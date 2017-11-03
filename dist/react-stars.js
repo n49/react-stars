@@ -53,18 +53,6 @@ var ReactStars = function (_Component) {
 
     props = _extends({}, props);
 
-    if (typeof props.edit === 'undefined') {
-      props.edit = true;
-    } else {
-      props.edit = false;
-    }
-
-    if (typeof props.half === 'undefined') {
-      props.half = true;
-    } else {
-      props.half = false;
-    }
-
     _this.state = {
       uniqueness: (Math.random() + '').replace('.', ''),
       value: props.value || 0,
@@ -76,13 +64,13 @@ var ReactStars = function (_Component) {
     };
 
     _this.state.config = {
-      count: props.count || 5,
-      size: props.size || 15,
-      char: props.char || '★',
+      count: props.count,
+      size: props.size,
+      char: props.char,
       // default color of inactive star
-      color1: props.color1 || 'gray',
+      color1: props.color1,
       // color of an active star
-      color2: props.color2 || '#ffd700',
+      color2: props.color2,
       half: props.half,
       edit: props.edit
     };
@@ -293,6 +281,19 @@ ReactStars.propTypes = {
   size: _propTypes2.default.number,
   color1: _propTypes2.default.string,
   color2: _propTypes2.default.string
+};
+
+ReactStars.defaultProps = {
+  edit: true,
+  half: true,
+  value: 0,
+  count: 5,
+  char: '★',
+  size: 15,
+  color1: 'gray',
+  color2: '#ffd700',
+
+  onChange: function onChange() {}
 };
 
 exports.default = ReactStars;
