@@ -75,7 +75,16 @@ class ReactStars extends Component {
       halfStar: {
         at: Math.floor(props.value),
         hidden: this.state.config.half && props.value % 1 < 0.5
-      }
+      },
+      config: Object.assign({}, this.state.config, {
+        count: props.count,
+        size: props.size,
+        char: props.char,
+        color1: props.color1,
+        color2: props.color2,
+        half: props.half,
+        edit: props.edit
+      })
     })
   }
 
