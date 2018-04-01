@@ -60,7 +60,8 @@ var ReactStars = function (_Component) {
       halfStar: {
         at: Math.floor(props.value),
         hidden: props.half && props.value % 1 < 0.5
-      }
+      },
+      edit: props.edit
     };
 
     _this.state.config = {
@@ -71,10 +72,8 @@ var ReactStars = function (_Component) {
       color1: props.color1,
       // color of an active star
       color2: props.color2,
-      half: props.half,
-      edit: props.edit
+      half: props.half
     };
-
     return _this;
   }
 
@@ -88,13 +87,15 @@ var ReactStars = function (_Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(props) {
+      console.log(props);
       this.setState({
         stars: this.getStars(props.value),
         value: props.value,
         halfStar: {
           at: Math.floor(props.value),
           hidden: this.state.config.half && props.value % 1 < 0.5
-        }
+        },
+        edit: props.edit
       });
     }
   }, {
@@ -132,9 +133,10 @@ var ReactStars = function (_Component) {
     value: function mouseOver(event) {
       var _state = this.state,
           config = _state.config,
-          halfStar = _state.halfStar;
+          halfStar = _state.halfStar,
+          edit = _state.edit;
 
-      if (!config.edit) return;
+      if (!edit) return;
       var index = Number(event.target.getAttribute('data-index'));
       if (config.half) {
         var isAtHalf = this.moreThanHalf(event, config.size);
@@ -163,9 +165,10 @@ var ReactStars = function (_Component) {
       var _state2 = this.state,
           value = _state2.value,
           halfStar = _state2.halfStar,
-          config = _state2.config;
+          config = _state2.config,
+          edit = _state2.edit;
 
-      if (!config.edit) return;
+      if (!edit) return;
       if (config.half) {
         halfStar.hidden = !this.isDecimal(value);
         halfStar.at = Math.floor(this.state.value);
@@ -179,9 +182,10 @@ var ReactStars = function (_Component) {
     value: function clicked(event) {
       var _state3 = this.state,
           config = _state3.config,
-          halfStar = _state3.halfStar;
+          halfStar = _state3.halfStar,
+          edit = _state3.edit;
 
-      if (!config.edit) return;
+      if (!edit) return;
       var index = Number(event.target.getAttribute('data-index'));
       var value = void 0;
       if (config.half) {
@@ -219,13 +223,13 @@ var ReactStars = function (_Component) {
           halfStar = _state5.halfStar,
           stars = _state5.stars,
           uniqueness = _state5.uniqueness,
-          config = _state5.config;
+          config = _state5.config,
+          edit = _state5.edit;
       var color1 = config.color1,
           color2 = config.color2,
           size = config.size,
           char = config.char,
-          half = config.half,
-          edit = config.edit;
+          half = config.half;
 
       return stars.map(function (star, i) {
         var starClass = '';

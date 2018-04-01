@@ -45,7 +45,8 @@ class ReactStars extends Component {
       halfStar: {
         at: Math.floor(props.value),
         hidden: props.half && props.value % 1 < 0.5
-      }
+      },
+      edit: props.edit
     }
 
     this.state.config = {
@@ -57,9 +58,7 @@ class ReactStars extends Component {
       // color of an active star
       color2: props.color2,
       half: props.half,
-      edit: props.edit,
     }
-
   }
 
   componentDidMount() {
@@ -69,13 +68,15 @@ class ReactStars extends Component {
   }
 
   componentWillReceiveProps(props) {
+    console.log(props);
     this.setState({
       stars: this.getStars(props.value),
       value: props.value,
       halfStar: {
         at: Math.floor(props.value),
         hidden: this.state.config.half && props.value % 1 < 0.5
-      }
+      },
+      edit: props.edit,
     })
   }
 
@@ -107,8 +108,8 @@ class ReactStars extends Component {
   }
 
   mouseOver(event) {
-    let { config, halfStar } = this.state
-    if (!config.edit) return;
+    let { config, halfStar, edit } = this.state
+    if (!edit) return;
     let index = Number(event.target.getAttribute('data-index'))
     if (config.half) {
       const isAtHalf = this.moreThanHalf(event, config.size)
@@ -131,8 +132,8 @@ class ReactStars extends Component {
   }
 
   mouseLeave() {
-    const { value, halfStar, config } = this.state
-    if (!config.edit) return
+    const { value, halfStar, config, edit } = this.state
+    if (!edit) return
     if (config.half) {
       halfStar.hidden = !this.isDecimal(value)
       halfStar.at = Math.floor(this.state.value)
@@ -143,8 +144,8 @@ class ReactStars extends Component {
   }
 
   clicked(event) {
-    const { config, halfStar } = this.state
-    if (!config.edit) return
+    const { config, halfStar, edit } = this.state
+    if (!edit) return
     let index = Number(event.target.getAttribute('data-index'))
     let value
     if (config.half) {
@@ -173,8 +174,8 @@ class ReactStars extends Component {
   }
 
   renderStars() {
-    const { halfStar, stars, uniqueness, config } = this.state
-    const { color1, color2, size, char, half, edit } = config
+    const { halfStar, stars, uniqueness, config, edit } = this.state
+    const { color1, color2, size, char, half } = config
     return stars.map((star, i) => {
       let starClass = ''
       if (half && !halfStar.hidden && halfStar.at === i) {
