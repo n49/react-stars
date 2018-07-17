@@ -237,7 +237,8 @@ ReactStars.propTypes = {
   char: PropTypes.string,
   size: PropTypes.number,
   color1: PropTypes.string,
-  color2: PropTypes.string
+	color2: PropTypes.string,
+	onChange: PropTypes.func
 }
 
 ReactStars.defaultProps = {
