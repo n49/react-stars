@@ -45,7 +45,7 @@ class ReactStars extends Component {
       halfStar: {
         at: Math.floor(props.value),
         hidden: props.half && props.value % 1 < 0.5
-      }
+      },
     }
 
     this.state.config = {
@@ -58,6 +58,8 @@ class ReactStars extends Component {
       color2: props.color2,
       half: props.half,
       edit: props.edit,
+      dynamic: props.dynamic,
+      dynamicOptions: props.dynamicOptions
     }
 
   }
@@ -173,27 +175,48 @@ class ReactStars extends Component {
   }
 
   renderHalfStarStyleElement() {
-    const { config, uniqueness } = this.state
+    const { config, uniqueness, value } = this.state;
+    const {dynamic, dynamicOptions} = config;
+    let color = config.color2;
+    if (dynamic) {
+      for(let i in dynamicOptions) {
+        if(dynamicOptions[i].minimumValue <= value) {
+          color = dynamicOptions[i].color;
+        }
+      }
+    } 
     return (
       <style dangerouslySetInnerHTML={{
-        __html: getHalfStarStyles(config.color2, uniqueness)
+        __html: getHalfStarStyles(color, uniqueness)
       }}></style>
     )
   }
 
   renderStars() {
-    const { halfStar, stars, uniqueness, config } = this.state
-    const { color1, color2, size, char, half, edit } = config
+    const { halfStar, stars, uniqueness, config, value } = this.state;
+    const { color1, color2, size, char, half, edit, dynamic, dynamicOptions } = config;
+
     return stars.map((star, i) => {
       let starClass = ''
       if (half && !halfStar.hidden && halfStar.at === i) {
         starClass = `react-stars-${uniqueness}`
       }
-      const style = Object.assign({}, defaultStyles, {
+      let style = style = Object.assign({}, defaultStyles, {
         color: star.active ? color2 : color1,
         cursor: edit ? 'pointer' : 'default',
         fontSize: `${size}px`
-      })
+      });
+      if (dynamic) {
+        for(let i in dynamicOptions) {
+          if(dynamicOptions[i].minimumValue <= value) {
+            style = Object.assign({}, defaultStyles, {
+              color: star.active ? dynamicOptions[i].color : color1,
+              cursor: edit ? 'pointer' : 'default',
+              fontSize: `${size}px`
+            });    
+          }
+        }
+      } 
       return (
         <span
           className={starClass}
@@ -237,7 +260,9 @@ ReactStars.propTypes = {
   char: PropTypes.string,
   size: PropTypes.number,
   color1: PropTypes.string,
-  color2: PropTypes.string
+  color2: PropTypes.string,
+  dynamic: PropTypes.bool,
+  dynamicOptions: PropTypes.array,
 }
 
 ReactStars.defaultProps = {
@@ -249,6 +274,8 @@ ReactStars.defaultProps = {
   size: 15,
   color1: 'gray',
   color2: '#ffd700',
+  dynamic: false,
+  dynamicOptions: [{minimumValue: 0, color: '#ffd700'}],
 
   onChange: () => { }
 };
