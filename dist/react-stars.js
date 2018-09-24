@@ -72,7 +72,9 @@ var ReactStars = function (_Component) {
       // color of an active star
       color2: props.color2,
       half: props.half,
-      edit: props.edit
+      edit: props.edit,
+      dynamic: props.dynamic,
+      dynamicOptions: props.dynamicOptions
     };
 
     return _this;
@@ -94,7 +96,16 @@ var ReactStars = function (_Component) {
         halfStar: {
           at: Math.floor(props.value),
           hidden: this.state.config.half && props.value % 1 < 0.5
-        }
+        },
+        config: _extends({}, this.state.config, {
+          count: props.count,
+          size: props.size,
+          char: props.char,
+          color1: props.color1,
+          color2: props.color2,
+          half: props.half,
+          edit: props.edit
+        })
       });
     }
   }, {
@@ -204,10 +215,21 @@ var ReactStars = function (_Component) {
     value: function renderHalfStarStyleElement() {
       var _state4 = this.state,
           config = _state4.config,
-          uniqueness = _state4.uniqueness;
+          uniqueness = _state4.uniqueness,
+          value = _state4.value;
+      var dynamic = config.dynamic,
+          dynamicOptions = config.dynamicOptions;
 
+      var color = config.color2;
+      if (dynamic) {
+        for (var i in dynamicOptions) {
+          if (dynamicOptions[i].minimumValue <= value) {
+            color = dynamicOptions[i].color;
+          }
+        }
+      }
       return _react2.default.createElement('style', { dangerouslySetInnerHTML: {
-          __html: getHalfStarStyles(config.color2, uniqueness)
+          __html: getHalfStarStyles(color, uniqueness)
         } });
     }
   }, {
@@ -219,24 +241,39 @@ var ReactStars = function (_Component) {
           halfStar = _state5.halfStar,
           stars = _state5.stars,
           uniqueness = _state5.uniqueness,
-          config = _state5.config;
+          config = _state5.config,
+          value = _state5.value;
       var color1 = config.color1,
           color2 = config.color2,
           size = config.size,
           char = config.char,
           half = config.half,
-          edit = config.edit;
+          edit = config.edit,
+          dynamic = config.dynamic,
+          dynamicOptions = config.dynamicOptions;
+
 
       return stars.map(function (star, i) {
         var starClass = '';
         if (half && !halfStar.hidden && halfStar.at === i) {
           starClass = 'react-stars-' + uniqueness;
         }
-        var style = _extends({}, defaultStyles, {
+        var style = style = _extends({}, defaultStyles, {
           color: star.active ? color2 : color1,
           cursor: edit ? 'pointer' : 'default',
           fontSize: size + 'px'
         });
+        if (dynamic) {
+          for (var _i in dynamicOptions) {
+            if (dynamicOptions[_i].minimumValue <= value) {
+              style = _extends({}, defaultStyles, {
+                color: star.active ? dynamicOptions[_i].color : color1,
+                cursor: edit ? 'pointer' : 'default',
+                fontSize: size + 'px'
+              });
+            }
+          }
+        }
         return _react2.default.createElement(
           'span',
           {
@@ -280,7 +317,9 @@ ReactStars.propTypes = {
   char: _propTypes2.default.string,
   size: _propTypes2.default.number,
   color1: _propTypes2.default.string,
-  color2: _propTypes2.default.string
+  color2: _propTypes2.default.string,
+  dynamic: _propTypes2.default.bool,
+  dynamicOptions: _propTypes2.default.array
 };
 
 ReactStars.defaultProps = {
@@ -292,6 +331,8 @@ ReactStars.defaultProps = {
   size: 15,
   color1: 'gray',
   color2: '#ffd700',
+  dynamic: false,
+  dynamicOptions: [{ minimumValue: 0, color: '#ffd700' }],
 
   onChange: function onChange() {}
 };
