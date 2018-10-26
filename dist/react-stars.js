@@ -228,7 +228,7 @@ var ReactStars = function (_Component) {
           edit = config.edit;
 
       return stars.map(function (star, i) {
-        var starClass = '';
+        var starClass = star.active ? 'active' : '';
         if (half && !halfStar.hidden && halfStar.at === i) {
           starClass = 'react-stars-' + uniqueness;
         }

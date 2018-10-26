@@ -185,7 +185,7 @@ class ReactStars extends Component {
     const { halfStar, stars, uniqueness, config } = this.state
     const { color1, color2, size, char, half, edit } = config
     return stars.map((star, i) => {
-      let starClass = ''
+      let starClass = star.active ? 'active' : ''
       if (half && !halfStar.hidden && halfStar.at === i) {
         starClass = `react-stars-${uniqueness}`
       }
