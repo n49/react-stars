@@ -70,7 +70,7 @@ class ReactStars extends Component {
 
   componentWillReceiveProps(props) {
     this.setState({
-      stars: this.getStars(props.value),
+      stars: this.getStars(props.value, props.count),
       value: props.value,
       halfStar: {
         at: Math.floor(props.value),
@@ -102,12 +102,14 @@ class ReactStars extends Component {
     return stars
   }
 
-  getStars(activeCount) {
+  getStars(activeCount, count) {
+    count = count || this.state.config.count
+
     if (typeof activeCount === 'undefined') {
       activeCount = this.getRate()
     }
     let stars = []
-    for (let i = 0; i < this.state.config.count; i++) {
+    for (let i = 0; i < count; i++) {
       stars.push({
         active: i <= activeCount - 1
       })
