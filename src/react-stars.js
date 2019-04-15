@@ -27,6 +27,12 @@ const getHalfStarStyles = (color, uniqueness) => {
       color: ${color};
   }`
 }
+const getHalfStarStyleForIcons = (color) => {
+  return `
+        span.react-stars-half > * {
+        color: ${color};
+    }`
+}
 
 class ReactStars extends Component {
 
@@ -45,7 +51,8 @@ class ReactStars extends Component {
       halfStar: {
         at: Math.floor(props.value),
         hidden: props.half && props.value % 1 < 0.5
-      }
+      },
+      isUsingIcons: ((props.half && props.emptyIcon && props.filledIcon) || (!props.half && props.emptyIcon && props.halfIcon && props.filledIcon)) ? true : false
     }
 
     this.state.config = {
@@ -58,6 +65,9 @@ class ReactStars extends Component {
       color2: props.color2,
       half: props.half,
       edit: props.edit,
+      emptyIcon: props.emptyIcon,
+      halfIcon: props.halfIcon,
+      filledIcon: props.filledIcon
     }
 
   }
@@ -118,7 +128,7 @@ class ReactStars extends Component {
   mouseOver(event) {
     let { config, halfStar } = this.state
     if (!config.edit) return;
-    let index = Number(event.target.getAttribute('data-index'))
+    let index = Number(event.currentTarget.getAttribute('data-index'))
     if (config.half) {
       const isAtHalf = this.moreThanHalf(event, config.size)
       halfStar.hidden = isAtHalf
@@ -154,7 +164,7 @@ class ReactStars extends Component {
   clicked(event) {
     const { config, halfStar } = this.state
     if (!config.edit) return
-    let index = Number(event.target.getAttribute('data-index'))
+    let index = Number(event.currentTarget.getAttribute('data-index'))
     let value
     if (config.half) {
       const isAtHalf = this.moreThanHalf(event, config.size)
@@ -173,21 +183,24 @@ class ReactStars extends Component {
   }
 
   renderHalfStarStyleElement() {
-    const { config, uniqueness } = this.state
+    const { config, uniqueness, isUsingIcons } = this.state
     return (
       <style dangerouslySetInnerHTML={{
-        __html: getHalfStarStyles(config.color2, uniqueness)
+        __html: isUsingIcons ? getHalfStarStyleForIcons(config.color2) : getHalfStarStyles(config.color2, uniqueness)
       }}></style>
     )
   }
 
   renderStars() {
-    const { halfStar, stars, uniqueness, config } = this.state
-    const { color1, color2, size, char, half, edit } = config
+    const { halfStar, stars, uniqueness, config, isUsingIcons } = this.state
+    const { color1, color2, size, char, half, edit, halfIcon, emptyIcon, filledIcon } = config
     return stars.map((star, i) => {
       let starClass = ''
+      let isHalf = false;
       if (half && !halfStar.hidden && halfStar.at === i) {
-        starClass = `react-stars-${uniqueness}`
+        if (!isUsingIcons) starClass = `react-stars-${uniqueness}`;
+        else starClass = `react-stars-half`;
+        isHalf = true;
       }
       const style = Object.assign({}, defaultStyles, {
         color: star.active ? color2 : color1,
@@ -200,12 +213,17 @@ class ReactStars extends Component {
           style={style}
           key={i}
           data-index={i}
-          data-forhalf={char}
+          data-forhalf={filledIcon ? i : char}
           onMouseOver={this.mouseOver.bind(this)}
           onMouseMove={this.mouseOver.bind(this)}
           onMouseLeave={this.mouseLeave.bind(this)}
           onClick={this.clicked.bind(this)}>
-          {char}
+          {!isUsingIcons && char}
+          {
+            isUsingIcons && (
+              (star.active && filledIcon) || (!star.active && isHalf && halfIcon) || (!star.active && !isHalf && emptyIcon)
+            )
+          }
         </span>
       )
     })
@@ -237,7 +255,10 @@ ReactStars.propTypes = {
   char: PropTypes.string,
   size: PropTypes.number,
   color1: PropTypes.string,
-  color2: PropTypes.string
+  color2: PropTypes.string,
+  emptyIcon: PropTypes.element,
+  halfIcon: PropTypes.element,
+  filledIcon: PropTypes.element
 }
 
 ReactStars.defaultProps = {

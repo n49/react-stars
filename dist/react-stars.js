@@ -40,6 +40,9 @@ var defaultStyles = {
 var getHalfStarStyles = function getHalfStarStyles(color, uniqueness) {
   return '\n    .react-stars-' + uniqueness + ':before {\n      position: absolute;\n      overflow: hidden;\n      display: block;\n      z-index: 1;\n      top: 0; left: 0;\n      width: 50%;\n      content: attr(data-forhalf);\n      color: ' + color + ';\n  }';
 };
+var getHalfStarStyleForIcons = function getHalfStarStyleForIcons(color) {
+  return '\n        span.react-stars-half > * {\n        color: ' + color + ';\n    }';
+};
 
 var ReactStars = function (_Component) {
   _inherits(ReactStars, _Component);
@@ -60,7 +63,8 @@ var ReactStars = function (_Component) {
       halfStar: {
         at: Math.floor(props.value),
         hidden: props.half && props.value % 1 < 0.5
-      }
+      },
+      isUsingIcons: props.half && props.emptyIcon && props.filledIcon || !props.half && props.emptyIcon && props.halfIcon && props.filledIcon ? true : false
     };
 
     _this.state.config = {
@@ -72,7 +76,10 @@ var ReactStars = function (_Component) {
       // color of an active star
       color2: props.color2,
       half: props.half,
-      edit: props.edit
+      edit: props.edit,
+      emptyIcon: props.emptyIcon,
+      halfIcon: props.halfIcon,
+      filledIcon: props.filledIcon
     };
 
     return _this;
@@ -94,7 +101,16 @@ var ReactStars = function (_Component) {
         halfStar: {
           at: Math.floor(props.value),
           hidden: this.state.config.half && props.value % 1 < 0.5
-        }
+        },
+        config: _extends({}, this.state.config, {
+          count: props.count,
+          size: props.size,
+          char: props.char,
+          color1: props.color1,
+          color2: props.color2,
+          half: props.half,
+          edit: props.edit
+        })
       });
     }
   }, {
@@ -135,7 +151,7 @@ var ReactStars = function (_Component) {
           halfStar = _state.halfStar;
 
       if (!config.edit) return;
-      var index = Number(event.target.getAttribute('data-index'));
+      var index = Number(event.currentTarget.getAttribute('data-index'));
       if (config.half) {
         var isAtHalf = this.moreThanHalf(event, config.size);
         halfStar.hidden = isAtHalf;
@@ -182,7 +198,7 @@ var ReactStars = function (_Component) {
           halfStar = _state3.halfStar;
 
       if (!config.edit) return;
-      var index = Number(event.target.getAttribute('data-index'));
+      var index = Number(event.currentTarget.getAttribute('data-index'));
       var value = void 0;
       if (config.half) {
         var isAtHalf = this.moreThanHalf(event, config.size);
@@ -204,10 +220,11 @@ var ReactStars = function (_Component) {
     value: function renderHalfStarStyleElement() {
       var _state4 = this.state,
           config = _state4.config,
-          uniqueness = _state4.uniqueness;
+          uniqueness = _state4.uniqueness,
+          isUsingIcons = _state4.isUsingIcons;
 
       return _react2.default.createElement('style', { dangerouslySetInnerHTML: {
-          __html: getHalfStarStyles(config.color2, uniqueness)
+          __html: isUsingIcons ? getHalfStarStyleForIcons(config.color2) : getHalfStarStyles(config.color2, uniqueness)
         } });
     }
   }, {
@@ -219,18 +236,24 @@ var ReactStars = function (_Component) {
           halfStar = _state5.halfStar,
           stars = _state5.stars,
           uniqueness = _state5.uniqueness,
-          config = _state5.config;
+          config = _state5.config,
+          isUsingIcons = _state5.isUsingIcons;
       var color1 = config.color1,
           color2 = config.color2,
           size = config.size,
           char = config.char,
           half = config.half,
-          edit = config.edit;
+          edit = config.edit,
+          halfIcon = config.halfIcon,
+          emptyIcon = config.emptyIcon,
+          filledIcon = config.filledIcon;
 
       return stars.map(function (star, i) {
         var starClass = '';
+        var isHalf = false;
         if (half && !halfStar.hidden && halfStar.at === i) {
-          starClass = 'react-stars-' + uniqueness;
+          if (!isUsingIcons) starClass = 'react-stars-' + uniqueness;else starClass = 'react-stars-half';
+          isHalf = true;
         }
         var style = _extends({}, defaultStyles, {
           color: star.active ? color2 : color1,
@@ -244,12 +267,13 @@ var ReactStars = function (_Component) {
             style: style,
             key: i,
             'data-index': i,
-            'data-forhalf': char,
+            'data-forhalf': filledIcon ? i : char,
             onMouseOver: _this2.mouseOver.bind(_this2),
             onMouseMove: _this2.mouseOver.bind(_this2),
             onMouseLeave: _this2.mouseLeave.bind(_this2),
             onClick: _this2.clicked.bind(_this2) },
-          char
+          !isUsingIcons && char,
+          isUsingIcons && (star.active && filledIcon || !star.active && isHalf && halfIcon || !star.active && !isHalf && emptyIcon)
         );
       });
     }
@@ -280,7 +304,10 @@ ReactStars.propTypes = {
   char: _propTypes2.default.string,
   size: _propTypes2.default.number,
   color1: _propTypes2.default.string,
-  color2: _propTypes2.default.string
+  color2: _propTypes2.default.string,
+  emptyIcon: _propTypes2.default.element,
+  halfIcon: _propTypes2.default.element,
+  filledIcon: _propTypes2.default.element
 };
 
 ReactStars.defaultProps = {

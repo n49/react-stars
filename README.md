@@ -28,6 +28,36 @@ render(<ReactStars
   document.getElementById('where-to-render')
 );
 ```
+
+Or use other elements as icons:
+> We do not support CSS for other third party libraries like fontawesome in this case. So you must import it by urself.
+
+
+![react-stars-fa](https://i.imgur.com/ko9NNRH.gif)
+
+
+```javascript
+import ReactStars from 'react-stars'
+import React from 'react'
+import { render } from 'react-dom'
+
+const ratingChanged = (newRating) => {
+  console.log(newRating)
+}
+
+render(<ReactStars
+  count={5}
+  onChange={ratingChanged}
+  size={24}
+  half={true}
+  emptyIcon={<i className='far fa-star'></i>}
+  halfIcon={<i className='fa fa-star-half-alt'></i>}
+  fullIcon={<i className='fa fa-star'></i>}
+  color2={'#ffd700'} />,
+
+  document.getElementById('where-to-render')
+);
+```
 ### API
 
 This a list of props that you can pass down to the component:
@@ -42,7 +72,10 @@ This a list of props that you can pass down to the component:
 | `color2` | Color of selected or active star | `#ffd700` | string |
 | `size` | Size of stars (in px) | `15px` | string |
 | `edit` | Should you be able to select rating or just see rating (for reusability) | `true` | boolean |
-| `half` | Should component use half stars, if not the decimal part will be dropped otherwise normal algebra rools will apply to round to half stars | `true` | boolean
+| `half` | Should component use half stars, if not the decimal part will be dropped otherwise normal algebra rools will apply to round to half stars | `true` | boolean|
+|`emptyIcon`| Use your own elements as empty icons | `null` | element |
+|`halfIcon`| Use your own elements as half filled icons | `null` | element |
+|`filledIcon`| Use your own elements as filled icons | `null` | element |
 | `onChange(new_rating)` | Will be invoked any time the rating is changed | `null` | function |
 
 ### Help improve the component
