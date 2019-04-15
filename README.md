@@ -6,6 +6,9 @@
 
 ![react-stars](http://i.imgur.com/VDbzbqF.gif)
 
+
+## DEMO: https://codesandbox.io/s/oo1y2y1o59
+
 ### Get started quickly
 
 ###### Install react-stars package with NPM:
