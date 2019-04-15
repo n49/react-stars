@@ -52,7 +52,7 @@ class ReactStars extends Component {
         at: Math.floor(props.value),
         hidden: props.half && props.value % 1 < 0.5
       },
-      isUsingIcons: ((props.half && props.emptyIcon && props.filledIcon) || (!props.half && props.emptyIcon && props.halfIcon && props.filledIcon)) ? true : false
+      isUsingIcons: ((!props.half && props.emptyIcon && props.filledIcon) || (props.half && props.emptyIcon && props.halfIcon && props.filledIcon)) ? true : false
     }
 
     this.state.config = {
