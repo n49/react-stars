@@ -1,17 +1,20 @@
-# react-stars :star:
+# react-rating-stars-component :star:
+### Forked from `react-stars`: https://github.com/n49/react-stars
+
 ###### A simple star rating component for your React projects (now with half stars and custom characters)
+
 
 ![react-stars](http://i.imgur.com/VDbzbqF.gif)
 
 ### Get started quickly
 
 ###### Install react-stars package with NPM:
-`npm install react-stars --save`
+`npm install react-rating-stars-component --save`
 
 Then in your project include the component:
 
 ```javascript
-import ReactStars from 'react-stars'
+import ReactStars from 'react-rating-stars-component'
 import React from 'react'
 import { render } from 'react-dom'
 
@@ -37,7 +40,7 @@ Or use other elements as icons:
 
 
 ```javascript
-import ReactStars from 'react-stars'
+import ReactStars from 'react-rating-stars-component'
 import React from 'react'
 import { render } from 'react-dom'
 
@@ -82,7 +85,7 @@ This a list of props that you can pass down to the component:
 ###### Build on your machine:
 ```bash
 # Clone the repo
-git clone git@github.com:n49/react-stars.git
+git clone git@github.com:ertanhasani/react-stars.git
 # Go into project folder
 cd react-stars
 # Install dependancies
