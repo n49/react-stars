@@ -44,6 +44,9 @@ This a list of props that you can pass down to the component:
 | `edit` | Should you be able to select rating or just see rating (for reusability) | `true` | boolean |
 | `half` | Should component use half stars, if not the decimal part will be dropped otherwise normal algebra rools will apply to round to half stars | `true` | boolean
 | `onChange(new_rating)` | Will be invoked any time the rating is changed | `null` | function |
+| `onMouseOver(new_rating)` | Will be invoked any time the when over mouse | `null` | function |
+| `onMouseMove(new_rating)` | Will be invoked any time the when move mouse | `null` | function |
+| `onMouseLeave(new_rating)` | Will be invoked any time the when leave mouse | `null` | function |
 
 ### Help improve the component
 ###### Build on your machine:

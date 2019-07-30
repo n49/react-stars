@@ -116,20 +116,29 @@ class ReactStars extends Component {
   }
 
   mouseOver(event) {
-    let { config, halfStar } = this.state
-    if (!config.edit) return;
-    let index = Number(event.target.getAttribute('data-index'))
-    if (config.half) {
-      const isAtHalf = this.moreThanHalf(event, config.size)
-      halfStar.hidden = isAtHalf
-      if (isAtHalf) index = index + 1
-      halfStar.at = index
-    } else {
-      index = index + 1
-    }
+    const { config, halfStar } = this.state
+    if (!config.edit) return
+
+    const { value, index } = this.calcData(event, config, halfStar);
+
     this.setState({
       stars: this.getStars(index)
     })
+
+    this.props.onMouseOver(value);
+  }
+
+  mouseMove(event) {
+    const { config, halfStar } = this.state
+    if (!config.edit) return
+
+    const { value, index } = this.calcData(event, config, halfStar);
+
+    this.setState({
+      stars: this.getStars(index)
+    })
+
+    this.props.onMouseMove(value)
   }
 
   moreThanHalf(event, size) {
@@ -149,11 +158,25 @@ class ReactStars extends Component {
     this.setState({
       stars: this.getStars()
     })
+
+    this.props.onMouseLeave(value);
   }
 
   clicked(event) {
     const { config, halfStar } = this.state
     if (!config.edit) return
+
+    const { value, index } = this.calcData(event, config, halfStar);
+
+    this.setState({
+      value: value,
+      stars: this.getStars(index)
+    })
+
+    this.props.onChange(value);
+  }
+
+  calcData(event, config, halfStar) {
     let index = Number(event.target.getAttribute('data-index'))
     let value
     if (config.half) {
@@ -165,11 +188,8 @@ class ReactStars extends Component {
     } else {
       value = index = index + 1
     }
-    this.setState({
-      value: value,
-      stars: this.getStars(index)
-    })
-    this.props.onChange(value)
+
+    return { value, index };
   }
 
   renderHalfStarStyleElement() {
@@ -202,7 +222,7 @@ class ReactStars extends Component {
           data-index={i}
           data-forhalf={char}
           onMouseOver={this.mouseOver.bind(this)}
-          onMouseMove={this.mouseOver.bind(this)}
+          onMouseMove={this.mouseMove.bind(this)}
           onMouseLeave={this.mouseLeave.bind(this)}
           onClick={this.clicked.bind(this)}>
           {char}
@@ -250,7 +270,10 @@ ReactStars.defaultProps = {
   color1: 'gray',
   color2: '#ffd700',
 
-  onChange: () => { }
+  onChange: () => { },
+  onMouseLeave: () => { },
+  onMouseMove: () => { },
+  onMouseOver: () => { },
 };
 
 export default ReactStars
