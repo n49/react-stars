@@ -35,6 +35,7 @@ This a list of props that you can pass down to the component:
 | Property | Description | Default value | type |
 | -------- | ----------- | ------------- | ---- |
 | `className`  | Name of parent class | `null` | string |
+| `starsClassName`  | Name of child class | `` | string |
 | `count`  | How many total stars you want  | 5 | number |
 | `value`  | Set rating value  | 0 | number |
 | `char` | Which character you want to use as a star | ★ | string |
