@@ -182,6 +182,7 @@ class ReactStars extends Component {
   }
 
   renderStars() {
+    const { starsClassName } = this.props;
     const { halfStar, stars, uniqueness, config } = this.state
     const { color1, color2, size, char, half, edit } = config
     return stars.map((star, i) => {
@@ -189,6 +190,7 @@ class ReactStars extends Component {
       if (half && !halfStar.hidden && halfStar.at === i) {
         starClass = `react-stars-${uniqueness}`
       }
+      starClass = `${starClass} ${starsClassName}`.trim();
       const style = Object.assign({}, defaultStyles, {
         color: star.active ? color2 : color1,
         cursor: edit ? 'pointer' : 'default',
@@ -237,7 +239,8 @@ ReactStars.propTypes = {
   char: PropTypes.string,
   size: PropTypes.number,
   color1: PropTypes.string,
-  color2: PropTypes.string
+  color2: PropTypes.string,
+  starsClassName: PropTypes.string,
 }
 
 ReactStars.defaultProps = {
@@ -249,7 +252,7 @@ ReactStars.defaultProps = {
   size: 15,
   color1: 'gray',
   color2: '#ffd700',
-
+  starsClassName: "",
   onChange: () => { }
 };
 
