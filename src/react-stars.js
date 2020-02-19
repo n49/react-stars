@@ -52,6 +52,7 @@ class ReactStars extends Component {
       count: props.count,
       size: props.size,
       char: props.char,
+      char2: props.char2,
       // default color of inactive star
       color1: props.color1,
       // color of an active star
@@ -183,7 +184,7 @@ class ReactStars extends Component {
 
   renderStars() {
     const { halfStar, stars, uniqueness, config } = this.state
-    const { color1, color2, size, char, half, edit } = config
+    const { color1, color2, size, char, half, edit, char2 } = config
     return stars.map((star, i) => {
       let starClass = ''
       if (half && !halfStar.hidden && halfStar.at === i) {
@@ -200,12 +201,12 @@ class ReactStars extends Component {
           style={style}
           key={i}
           data-index={i}
-          data-forhalf={char}
+          data-forhalf={char2 || char}
           onMouseOver={this.mouseOver.bind(this)}
           onMouseMove={this.mouseOver.bind(this)}
           onMouseLeave={this.mouseLeave.bind(this)}
           onClick={this.clicked.bind(this)}>
-          {char}
+          {star.active ? char2 : char}
         </span>
       )
     })
@@ -235,6 +236,7 @@ ReactStars.propTypes = {
   value: PropTypes.number,
   count: PropTypes.number,
   char: PropTypes.string,
+  char2: PropTypes.string,
   size: PropTypes.number,
   color1: PropTypes.string,
   color2: PropTypes.string
@@ -246,6 +248,7 @@ ReactStars.defaultProps = {
   value: 0,
   count: 5,
   char: '★',
+  char2: '★',
   size: 15,
   color1: 'gray',
   color2: '#ffd700',
