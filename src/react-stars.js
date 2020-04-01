@@ -67,7 +67,8 @@ class ReactStars extends Component {
       edit: props.edit,
       emptyIcon: props.emptyIcon,
       halfIcon: props.halfIcon,
-      filledIcon: props.filledIcon
+      filledIcon: props.filledIcon,
+      a11y: props.a11y
     }
 
   }
@@ -137,6 +138,7 @@ class ReactStars extends Component {
     } else {
       index = index + 1
     }
+    console.log(index);
     this.setState({
       stars: this.getStars(index)
     })
@@ -190,6 +192,34 @@ class ReactStars extends Component {
       }}></style>
     )
   }
+  
+  handleKeyDown(event) {
+    const { key } = event;
+    let { value, config } = this.state;
+
+    const keyNumber = Number(key); // e.g. "1" => 1, "ArrowUp" => NaN
+    if (keyNumber) { // number
+      if (Number.isInteger(keyNumber) && (keyNumber > 0) && (keyNumber <= 5)) {
+        value = keyNumber;
+      }
+    } else { // string
+      if (key === 'ArrowUp' || key === 'ArrowRight') {
+        value += config.half ? 0.5 : 1;
+      } else if (key === 'ArrowDown' || key === 'ArrowLeft') {
+        value -= config.half ? 0.5 : 1;
+      }
+    }
+    
+    this.setState(prevState => ({
+      value,
+      stars: this.getStars(value),
+      halfStar: config.half ? {
+        hidden: Number.isInteger(value),
+        at: Math.floor(value)
+      } : prevState.halfStar
+    }));
+    this.props.onChange(value);
+  }
 
   renderStars() {
     const { halfStar, stars, uniqueness, config, isUsingIcons } = this.state
@@ -235,9 +265,19 @@ class ReactStars extends Component {
       className
     } = this.props
 
+    const {
+      config
+    } = this.state;
+
     return (
-      <div className={className} style={parentStyles}>
-        {this.state.config.half ?
+      <div 
+        tabIndex={config.a11y ? 0 : null} 
+        aria-label="add rating by typing an integer from 0 to 5 or pressing arrow keys" 
+        onKeyDown={config.a11y ? this.handleKeyDown.bind(this) : null}
+        className={className} 
+        style={parentStyles}
+      >
+        {config.half ?
           this.renderHalfStarStyleElement() : ''}
         {this.renderStars()}
       </div>
@@ -258,7 +298,8 @@ ReactStars.propTypes = {
   color2: PropTypes.string,
   emptyIcon: PropTypes.element,
   halfIcon: PropTypes.element,
-  filledIcon: PropTypes.element
+  filledIcon: PropTypes.element,
+  a11y: PropTypes.Bool
 }
 
 ReactStars.defaultProps = {
@@ -270,6 +311,7 @@ ReactStars.defaultProps = {
   size: 15,
   color1: 'gray',
   color2: '#ffd700',
+  a11y: true,
 
   onChange: () => { }
 };
