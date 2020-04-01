@@ -14,6 +14,11 @@ const defaultStyles = {
   float: 'left'
 }
 
+const statusStyles = {
+  position: 'absolute',
+  left: '-200rem'
+}
+
 const getHalfStarStyles = (color, uniqueness) => {
   return `
     .react-stars-${uniqueness}:before {
@@ -202,9 +207,11 @@ class ReactStars extends Component {
         value = keyNumber;
       }
     } else { // string
-      if (key === 'ArrowUp' || key === 'ArrowRight') {
+      if ((key === 'ArrowUp' || key === 'ArrowRight') && value < 5) {
+        event.preventDefault();
         value += config.half ? 0.5 : 1;
-      } else if (key === 'ArrowDown' || key === 'ArrowLeft') {
+      } else if ((key === 'ArrowDown' || key === 'ArrowLeft') && value >.5) {
+        event.preventDefault();
         value -= config.half ? 0.5 : 1;
       }
     }
@@ -265,7 +272,8 @@ class ReactStars extends Component {
     } = this.props
 
     const {
-      config
+      config,
+      value
     } = this.state;
 
     return (
@@ -279,6 +287,7 @@ class ReactStars extends Component {
         {config.half ?
           this.renderHalfStarStyleElement() : ''}
         {this.renderStars()}
+        <p style={statusStyles} role="status">{value}</p>
       </div>
     )
   }
@@ -298,7 +307,7 @@ ReactStars.propTypes = {
   emptyIcon: PropTypes.element,
   halfIcon: PropTypes.element,
   filledIcon: PropTypes.element,
-  a11y: PropTypes.Bool
+  a11y: PropTypes.bool
 }
 
 ReactStars.defaultProps = {
