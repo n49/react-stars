@@ -138,7 +138,6 @@ class ReactStars extends Component {
     } else {
       index = index + 1
     }
-    console.log(index);
     this.setState({
       stars: this.getStars(index)
     })
