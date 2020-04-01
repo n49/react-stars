@@ -271,9 +271,9 @@ class ReactStars extends Component {
 
     return (
       <div 
-        tabIndex={config.a11y ? 0 : null} 
+        tabIndex={(config.a11y && config.edit) ? 0 : null} 
         aria-label="add rating by typing an integer from 0 to 5 or pressing arrow keys" 
-        onKeyDown={config.a11y ? this.handleKeyDown.bind(this) : null}
+        onKeyDown={(config.a11y && config.edit) ? this.handleKeyDown.bind(this) : null}
         className={className} 
         style={parentStyles}
       >
