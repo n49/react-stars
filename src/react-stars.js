@@ -1,18 +1,18 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 const parentStyles = {
-  overflow: 'hidden',
-  position: 'relative'
-}
+  overflow: "hidden",
+  position: "relative",
+};
 
 const defaultStyles = {
-  position: 'relative',
-  overflow: 'hidden',
-  cursor: 'pointer',
-  display: 'block',
-  float: 'left'
-}
+  position: "relative",
+  overflow: "hidden",
+  cursor: "pointer",
+  display: "block",
+  float: "left",
+};
 
 const getHalfStarStyles = (color, uniqueness) => {
   return `
@@ -25,35 +25,37 @@ const getHalfStarStyles = (color, uniqueness) => {
       width: 50%;
       content: attr(data-forhalf);
       color: ${color};
-  }`
-}
+  }`;
+};
 const getHalfStarStyleForIcons = (color) => {
   return `
         span.react-stars-half > * {
         color: ${color};
-    }`
-}
+    }`;
+};
 
 class ReactStars extends Component {
-
   constructor(props) {
-
-    super(props)
+    super(props);
 
     // set defaults
 
-    props = Object.assign({}, props)
+    props = Object.assign({}, props);
 
     this.state = {
-      uniqueness: (Math.random() + '').replace('.', ''),
+      uniqueness: (Math.random() + "").replace(".", ""),
       value: props.value || 0,
       stars: [],
       halfStar: {
         at: Math.floor(props.value),
-        hidden: props.half && props.value % 1 < 0.5
+        hidden: props.half && props.value % 1 < 0.5,
       },
-      isUsingIcons: ((!props.half && props.emptyIcon && props.filledIcon) || (props.half && props.emptyIcon && props.halfIcon && props.filledIcon)) ? true : false
-    }
+      isUsingIcons:
+        (!props.half && props.emptyIcon && props.filledIcon) ||
+        (props.half && props.emptyIcon && props.halfIcon && props.filledIcon)
+          ? true
+          : false,
+    };
 
     this.state.config = {
       count: props.count,
@@ -67,15 +69,15 @@ class ReactStars extends Component {
       edit: props.edit,
       emptyIcon: props.emptyIcon,
       halfIcon: props.halfIcon,
-      filledIcon: props.filledIcon
-    }
-
+      filledIcon: props.filledIcon,
+      a11y: props.a11y,
+    };
   }
 
   componentDidMount() {
     this.setState({
-      stars: this.getStars(this.state.value)
-    })
+      stars: this.getStars(this.state.value),
+    });
   }
 
   componentWillReceiveProps(props) {
@@ -84,7 +86,7 @@ class ReactStars extends Component {
       value: props.value,
       halfStar: {
         at: Math.floor(props.value),
-        hidden: this.state.config.half && props.value % 1 < 0.5
+        hidden: this.state.config.half && props.value % 1 < 0.5,
       },
       config: Object.assign({}, this.state.config, {
         count: props.count,
@@ -93,109 +95,161 @@ class ReactStars extends Component {
         color1: props.color1,
         color2: props.color2,
         half: props.half,
-        edit: props.edit
-      })
-    })
+        edit: props.edit,
+      }),
+    });
   }
 
   isDecimal(value) {
-    return value % 1 !== 0
+    return value % 1 !== 0;
   }
 
   getRate() {
-    let stars
+    let stars;
     if (this.state.config.half) {
-      stars = Math.floor(this.state.value)
+      stars = Math.floor(this.state.value);
     } else {
-      stars = Math.round(this.state.value)
+      stars = Math.round(this.state.value);
     }
-    return stars
+    return stars;
   }
 
   getStars(activeCount) {
-    if (typeof activeCount === 'undefined') {
-      activeCount = this.getRate()
+    if (typeof activeCount === "undefined") {
+      activeCount = this.getRate();
     }
-    let stars = []
+    let stars = [];
     for (let i = 0; i < this.state.config.count; i++) {
       stars.push({
-        active: i <= activeCount - 1
-      })
+        active: i <= activeCount - 1,
+      });
     }
-    return stars
+    return stars;
   }
 
   mouseOver(event) {
-    let { config, halfStar } = this.state
+    let { config, halfStar } = this.state;
     if (!config.edit) return;
-    let index = Number(event.currentTarget.getAttribute('data-index'))
+    let index = Number(event.currentTarget.getAttribute("data-index"));
     if (config.half) {
-      const isAtHalf = this.moreThanHalf(event, config.size)
-      halfStar.hidden = isAtHalf
-      if (isAtHalf) index = index + 1
-      halfStar.at = index
+      const isAtHalf = this.moreThanHalf(event, config.size);
+      halfStar.hidden = isAtHalf;
+      if (isAtHalf) index = index + 1;
+      halfStar.at = index;
     } else {
-      index = index + 1
+      index = index + 1;
     }
     this.setState({
-      stars: this.getStars(index)
-    })
+      stars: this.getStars(index),
+    });
   }
 
   moreThanHalf(event, size) {
-    let { target } = event
-    var mouseAt = event.clientX - target.getBoundingClientRect().left
-    mouseAt = Math.round(Math.abs(mouseAt))
-    return mouseAt > size / 2
+    let { target } = event;
+    var mouseAt = event.clientX - target.getBoundingClientRect().left;
+    mouseAt = Math.round(Math.abs(mouseAt));
+    return mouseAt > size / 2;
   }
 
   mouseLeave() {
-    const { value, halfStar, config } = this.state
-    if (!config.edit) return
+    const { value, halfStar, config } = this.state;
+    if (!config.edit) return;
     if (config.half) {
-      halfStar.hidden = !this.isDecimal(value)
-      halfStar.at = Math.floor(this.state.value)
+      halfStar.hidden = !this.isDecimal(value);
+      halfStar.at = Math.floor(this.state.value);
     }
     this.setState({
-      stars: this.getStars()
-    })
+      stars: this.getStars(),
+    });
   }
 
   clicked(event) {
-    const { config, halfStar } = this.state
-    if (!config.edit) return
-    let index = Number(event.currentTarget.getAttribute('data-index'))
-    let value
+    const { config, halfStar } = this.state;
+    if (!config.edit) return;
+    let index = Number(event.currentTarget.getAttribute("data-index"));
+    let value;
     if (config.half) {
-      const isAtHalf = this.moreThanHalf(event, config.size)
-      halfStar.hidden = isAtHalf
-      if (isAtHalf) index = index + 1
-      value = isAtHalf ? index : index + .5
-      halfStar.at = index
+      const isAtHalf = this.moreThanHalf(event, config.size);
+      halfStar.hidden = isAtHalf;
+      if (isAtHalf) index = index + 1;
+      value = isAtHalf ? index : index + 0.5;
+      halfStar.at = index;
     } else {
-      value = index = index + 1
+      value = index = index + 1;
     }
     this.setState({
       value: value,
-      stars: this.getStars(index)
-    })
-    this.props.onChange(value)
+      stars: this.getStars(index),
+    });
+    this.props.onChange(value);
   }
 
   renderHalfStarStyleElement() {
-    const { config, uniqueness, isUsingIcons } = this.state
+    const { config, uniqueness, isUsingIcons } = this.state;
     return (
-      <style dangerouslySetInnerHTML={{
-        __html: isUsingIcons ? getHalfStarStyleForIcons(config.color2) : getHalfStarStyles(config.color2, uniqueness)
-      }}></style>
-    )
+      <style
+        dangerouslySetInnerHTML={{
+          __html: isUsingIcons
+            ? getHalfStarStyleForIcons(config.color2)
+            : getHalfStarStyles(config.color2, uniqueness),
+        }}
+      ></style>
+    );
+  }
+
+  handleKeyDown(event) {
+    const { key } = event;
+    let { value, config } = this.state;
+
+    const keyNumber = Number(key); // e.g. "1" => 1, "ArrowUp" => NaN
+    if (keyNumber) {
+      // number
+      if (
+        Number.isInteger(keyNumber) &&
+        keyNumber > 0 &&
+        keyNumber <= config.count
+      ) {
+        value = keyNumber;
+      }
+    } else {
+      // string
+      if ((key === "ArrowUp" || key === "ArrowRight") && value < config.count) {
+        event.preventDefault();
+        value += config.half ? 0.5 : 1;
+      } else if ((key === "ArrowDown" || key === "ArrowLeft") && value > 0.5) {
+        event.preventDefault();
+        value -= config.half ? 0.5 : 1;
+      }
+    }
+
+    this.setState((prevState) => ({
+      value,
+      stars: this.getStars(value),
+      halfStar: config.half
+        ? {
+            hidden: Number.isInteger(value),
+            at: Math.floor(value),
+          }
+        : prevState.halfStar,
+    }));
+    this.props.onChange(value);
   }
 
   renderStars() {
-    const { halfStar, stars, uniqueness, config, isUsingIcons } = this.state
-    const { color1, color2, size, char, half, edit, halfIcon, emptyIcon, filledIcon } = config
+    const { halfStar, stars, uniqueness, config, isUsingIcons } = this.state;
+    const {
+      color1,
+      color2,
+      size,
+      char,
+      half,
+      edit,
+      halfIcon,
+      emptyIcon,
+      filledIcon,
+    } = config;
     return stars.map((star, i) => {
-      let starClass = ''
+      let starClass = "";
       let isHalf = false;
       if (half && !halfStar.hidden && halfStar.at === i) {
         if (!isUsingIcons) starClass = `react-stars-${uniqueness}`;
@@ -204,9 +258,9 @@ class ReactStars extends Component {
       }
       const style = Object.assign({}, defaultStyles, {
         color: star.active ? color2 : color1,
-        cursor: edit ? 'pointer' : 'default',
-        fontSize: `${size}px`
-      })
+        cursor: edit ? "pointer" : "default",
+        fontSize: `${size}px`,
+      });
       return (
         <span
           className={starClass}
@@ -217,33 +271,43 @@ class ReactStars extends Component {
           onMouseOver={this.mouseOver.bind(this)}
           onMouseMove={this.mouseOver.bind(this)}
           onMouseLeave={this.mouseLeave.bind(this)}
-          onClick={this.clicked.bind(this)}>
+          onClick={this.clicked.bind(this)}
+        >
           {!isUsingIcons && char}
-          {
-            isUsingIcons && (
-              (star.active && filledIcon) || (!star.active && isHalf && halfIcon) || (!star.active && !isHalf && emptyIcon)
-            )
-          }
+          {isUsingIcons &&
+            ((star.active && filledIcon) ||
+              (!star.active && isHalf && halfIcon) ||
+              (!star.active && !isHalf && emptyIcon))}
         </span>
-      )
-    })
+      );
+    });
   }
 
   render() {
+    const { className } = this.props;
 
-    const {
-      className
-    } = this.props
+    const { config, value } = this.state;
 
     return (
-      <div className={className} style={parentStyles}>
-        {this.state.config.half ?
-          this.renderHalfStarStyleElement() : ''}
-        {this.renderStars()}
+      <div style={{ display: "flex" }}>
+        <div
+          tabIndex={config.a11y && config.edit ? 0 : null}
+          aria-label="add rating by typing an integer from 0 to 5 or pressing arrow keys"
+          onKeyDown={
+            config.a11y && config.edit ? this.handleKeyDown.bind(this) : null
+          }
+          className={className}
+          style={parentStyles}
+        >
+          {config.half ? this.renderHalfStarStyleElement() : ""}
+          {this.renderStars()}
+          <p style={{ position: "absolute", left: "-200rem" }} role="status">
+            {value}
+          </p>
+        </div>
       </div>
-    )
+    );
   }
-
 }
 
 ReactStars.propTypes = {
@@ -258,20 +322,22 @@ ReactStars.propTypes = {
   color2: PropTypes.string,
   emptyIcon: PropTypes.element,
   halfIcon: PropTypes.element,
-  filledIcon: PropTypes.element
-}
+  filledIcon: PropTypes.element,
+  a11y: PropTypes.bool,
+};
 
 ReactStars.defaultProps = {
   edit: true,
   half: true,
   value: 0,
   count: 5,
-  char: '★',
+  char: "★",
   size: 15,
-  color1: 'gray',
-  color2: '#ffd700',
+  color1: "gray",
+  color2: "#ffd700",
+  a11y: true,
 
-  onChange: () => { }
+  onChange: () => {},
 };
 
-export default ReactStars
+export default ReactStars;
