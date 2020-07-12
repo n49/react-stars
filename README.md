@@ -1,12 +1,12 @@
 # react-rating-stars-component :star:
 
-### Forked from `react-stars`: https://github.com/n49/react-stars
+##### Forked from `react-stars`: https://github.com/n49/react-stars
 
 ###### A simple star rating component for your React projects (now with half stars and custom characters)
 
 ![react-stars](http://i.imgur.com/VDbzbqF.gif)
 
-## DEMO: https://codesandbox.io/s/oo1y2y1o59
+## DEMO: https://codesandbox.io/s/elegant-mountain-w3ngk?file=/src/App.js
 
 ### Get started quickly
 
@@ -30,7 +30,7 @@ render(
     count={5}
     onChange={ratingChanged}
     size={24}
-    color2={"#ffd700"}
+    activeColor="#ffd700"
   />,
 
   document.getElementById("where-to-render")
@@ -57,11 +57,11 @@ render(
     count={5}
     onChange={ratingChanged}
     size={24}
-    half={true}
+    isHalf={true}
     emptyIcon={<i className="far fa-star"></i>}
     halfIcon={<i className="fa fa-star-half-alt"></i>}
     fullIcon={<i className="fa fa-star"></i>}
-    color2={"#ffd700"}
+    activeColor="#ffd700"
   />,
 
   document.getElementById("where-to-render")
@@ -74,15 +74,15 @@ This a list of props that you can pass down to the component:
 
 | Property               | Description                                                                                                                               | Default value | type     |
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------- | -------- |
-| `className`            | Name of parent class                                                                                                                      | `null`        | string   |
+| `classNames`            | Name of parent classes                                                                                                                      | `null`        | string   |
 | `count`                | How many total stars you want                                                                                                             | 5             | number   |
 | `value`                | Set rating value                                                                                                                          | 0             | number   |
 | `char`                 | Which character you want to use as a star                                                                                                 | ★             | string   |
-| `color1`               | Color of inactive star (this supports any CSS valid value)                                                                                | `gray`        | string   |
-| `color2`               | Color of selected or active star                                                                                                          | `#ffd700`     | string   |
+| `color`               | Color of inactive star (this supports any CSS valid value)                                                                                | `gray`        | string   |
+| `activeColor`               | Color of selected or active star                                                                                                          | `#ffd700`     | string   |
 | `size`                 | Size of stars (in px)                                                                                                                     | `15px`        | string   |
 | `edit`                 | Should you be able to select rating or just see rating (for reusability)                                                                  | `true`        | boolean  |
-| `half`                 | Should component use half stars, if not the decimal part will be dropped otherwise normal algebra rools will apply to round to half stars | `true`        | boolean  |
+| `isHalf`                 | Should component use half stars, if not the decimal part will be dropped otherwise normal algebra rools will apply to round to half stars | `true`        | boolean  |
 | `emptyIcon`            | Use your own elements as empty icons                                                                                                      | `null`        | element  |
 | `halfIcon`             | Use your own elements as half filled icons                                                                                                | `null`        | element  |
 | `filledIcon`           | Use your own elements as filled icons                                                                                                     | `null`        | element  |
