@@ -28,6 +28,40 @@ render(<ReactStars
   document.getElementById('where-to-render')
 );
 ```
+### Examples
+
+##### Custom Size, Preset Number of Stars and Not Editable Component
+```javascript
+// Size of 30, 3 stars and uneditable component.
+<Stars size={30} value={3} edit={false} />
+```
+
+##### Custom Characters, Custom Colors and Custom Total Number of Stars, onChange Method for Custom Logic.
+```javascript
+// Size of 40, 10 total stars, apple character, onChange method and editable component.
+<Stars 
+  size={40}
+  count={10}
+  color1="#ff9900"
+  color2="#6599ff"
+  edit={true}
+  onChange={(newValue) => {
+    console.log(newValue);
+  }} 
+/>
+```
+
+##### Custom Characters, Custom Colors and Custom Total Number of Stars without Half Stars
+```javascript
+// Size of 50, 6 total stars and editable component without half stars.
+<Stars 
+  size={50}
+  count={6}
+  edit={true}
+  half={false}
+/>
+```
+
 ### API
 
 This a list of props that you can pass down to the component:
@@ -57,7 +91,7 @@ npm install
 ```
 Build the component:
 ```bash
-npm build
+npm run build
 ```
 Run the examples (dev):
 ```bash
