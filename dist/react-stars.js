@@ -86,8 +86,8 @@ var ReactStars = function (_Component) {
       });
     }
   }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(props) {
+    key: 'UNSAFE_componentWillReceiveProps',
+    value: function UNSAFE_componentWillReceiveProps(props) {
       this.setState({
         stars: this.getStars(props.value),
         value: props.value,
