@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 
 const parentStyles = {
   overflow: 'hidden',
@@ -68,7 +68,7 @@ class ReactStars extends Component {
     })
   }
 
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {
     this.setState({
       stars: this.getStars(props.value),
       value: props.value,
